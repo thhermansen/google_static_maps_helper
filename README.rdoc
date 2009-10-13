@@ -1,7 +1,6 @@
-= google_static_maps_helper
+= Google Static Maps Helper
 
 This gem provides a simple interface to the Google Static Maps V2 API (http://code.google.com/apis/maps/documentation/staticmaps/)
-
 
 == Marker
 A marker object is, not surprisingly, representing a marker in the Google static map. It is pushed into the Map object and is used
@@ -20,6 +19,19 @@ parameter to the new method, or include it in the has where lng and lat is.
   GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :color => 'blue')
 
 
+== Map
+Once you have made a few markers you are ready to insert them into a map. First, we need to create a map:
+  map = GoogleStaticMapsHelper::Map.new(:key => YOUR_GOOGLE_KEY, :sensor => false, :size => '200x300')
+
+With the map object made, it's ready to add some markers to it:
+  map << marker
+  map << another marker
+
+The map is now ready to generate the URL you can use in your image tag:
+  map.url
+
+Another thing you might want to do is to override the center point and zoom level. This is done during map construction
+  map = GoogleStaticMapsHelper::Map.new(:key => YOUR_GOOGLE_KEY, :sensor => false, :size => '200x300', :center => '1,2', :zoom => 4) 
 
 == Copyright
 
