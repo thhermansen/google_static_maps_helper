@@ -59,9 +59,6 @@ module GoogleStaticMapsHelper
       super
     end
 
-    def options_equal?(other_marker)
-      @options == other_marker.options
-    end
 
     private
     def extract_location_from_hash!(location_hash)
