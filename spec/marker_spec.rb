@@ -101,4 +101,19 @@ describe GoogleStaticMapsHelper::Marker do
       end
     end
   end
+
+
+  describe "marker option equality" do
+    it "should be equal to another marker if all options are equal" do
+      marker1 = GoogleStaticMapsHelper::Marker.new(@location_hash.dup)
+      marker2 = GoogleStaticMapsHelper::Marker.new(@location_hash.dup)
+      marker1.options_equal?(marker2).should be_true
+    end
+
+    it "should not be equal to another marker if some options are different" do
+      marker1 = GoogleStaticMapsHelper::Marker.new(@location_hash.dup)
+      marker2 = GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:color => 'green'))
+      marker1.options_equal?(marker2).should be_false
+    end
+  end
 end
