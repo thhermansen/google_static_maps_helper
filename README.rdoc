@@ -9,14 +9,14 @@ to generate the URL for the static map.
 A marker is built as following:
 The easiest way to build a marker is by simply sending in an object which responds to lng and lat, or
 by sending lng and lat in as a hash.
-  GoogleStaticMapsHelper::Marker.new(location)
-  GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
+  marker = GoogleStaticMapsHelper::Marker.new(location)
+  marker = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
 
 Google's static maps supports some options on markers. You can change the color, the lable and the size.
 (http://code.google.com/apis/maps/documentation/staticmaps/#MarkerStyles). You send in options as a second
 parameter to the new method, or include it in the has where lng and lat is.
-  GoogleStaticMapsHelper::Marker.new(location, :color => 'blue')
-  GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :color => 'blue')
+  marker = GoogleStaticMapsHelper::Marker.new(location, :color => 'blue')
+  marker = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :color => 'blue')
 
 
 == Map
@@ -25,7 +25,7 @@ Once you have made a few markers you are ready to insert them into a map. First,
 
 With the map object made, it's ready to add some markers to it:
   map << marker
-  map << another marker
+  map << another_marker
 
 The map is now ready to generate the URL you can use in your image tag:
   map.url
