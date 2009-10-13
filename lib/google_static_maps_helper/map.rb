@@ -8,11 +8,13 @@ module GoogleStaticMapsHelper
     REQUIRED_OPTIONS = [:key, :size, :sensor]
     OPTIONAL_OPTIONS = [:center, :zoom, :size, :format, :maptype, :mobile, :language]
     
+    attr_reader :options
+
     def initialize(options)
       validate_required_options(options)
       validate_options(options)
 
-      
+      @options = options
       @markers = []
     end
     

@@ -21,7 +21,10 @@ describe GoogleStaticMapsHelper::Map do
       lambda {GoogleStaticMapsHelper::Map.new(@@require_options.merge(:invalid_option => 'error?'))}.should raise_error(GoogleStaticMapsHelper::OptionNotExist)
     end
 
-    it "should "
+    it "should be able to read initialized key option from object" do
+      map = GoogleStaticMapsHelper::Map.new(@@require_options)
+      map.options[:key].should == @@require_options[:key]
+    end
   end
 
   describe "markers" do
