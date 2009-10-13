@@ -16,7 +16,7 @@ module GoogleStaticMapsHelper
     }
 
     attr_accessor :lat, :lng
-    attr_reader :location, :options
+    attr_reader :options
 
     def initialize(*args)
       raise ArgumentError, "Must have one or two arguments." if args.length == 0
