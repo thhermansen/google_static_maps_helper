@@ -57,32 +57,70 @@ describe GoogleStaticMapsHelper::Map do
 
 
 
-  before :each do
-    @key = 'MY_GOOGLE_KEY'
-    @size = '400x600'
-    @sensor = true
-    @map = GoogleStaticMapsHelper::Map.new(:key => @key, :size => @size, :sensor => @sensor)
-    
-    @marker1  = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
-    @marker11 = GoogleStaticMapsHelper::Marker.new(:lng => 3, :lat => 4)
-
-    @marker2  = GoogleStaticMapsHelper::Marker.new(:lng => 5, :lat => 6, :color => 'green')
-    @marker22 = GoogleStaticMapsHelper::Marker.new(:lng => 7, :lat => 8, :color => 'green')
-  end
-
   describe "URL" do
-    it "should raise exception if called with no markers nor center and zoom" do
-      lambda{@map.url}.should raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+    before :each do
+      @key = 'MY_GOOGLE_KEY'
+      @size = '400x600'
+      @sensor = true
+      @map = GoogleStaticMapsHelper::Map.new(:key => @key, :size => @size, :sensor => @sensor)
+      
+      @marker1  = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
+      @marker11 = GoogleStaticMapsHelper::Marker.new(:lng => 3, :lat => 4)
+
+      @marker2  = GoogleStaticMapsHelper::Marker.new(:lng => 5, :lat => 6, :color => 'green')
+      @marker22 = GoogleStaticMapsHelper::Marker.new(:lng => 7, :lat => 8, :color => 'green')
     end
 
-    it "should not raise exception if markers are in map" do
-      @map << @marker1
-      lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+    describe "valid state to run URL" do
+      it "should raise exception if called with no markers nor center and zoom" do
+        lambda{@map.url}.should raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+      end
+
+      it "should not raise exception if markers are in map" do
+        @map << @marker1
+        lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+      end
+
+      it "should not raise exception if center and zoom is set" do
+        @map.options.merge!(:zoom => 1, :center => '1,1')
+        lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+      end
     end
 
-    it "should not raise exception if center and zoom is set" do
-      @map.options.merge!(:zoom => 1, :center => '1,1')
-      lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+    describe "required parameters" do
+      before :each do
+        @map.options.merge!(:zoom => 12, :center => '1,1')
+      end
+
+      it "should start with the URL to the API" do
+        @map.url.should include(GoogleStaticMapsHelper::API_URL)
+      end
+
+      it "should include the key" do
+        @map.url.should include("key=#{@key}")
+      end
+      
+      it "should include the size" do
+        @map.url.should include("size=#{@size}")
+      end
+      
+      it "should include the sensor" do
+        @map.url.should include("sensor=#{@sensor}")
+      end
+    end
+
+    describe "with no markers in map" do
+      before :each do
+        @map.options.merge!(:zoom => 1, :center => '2,3')
+      end
+      
+      it "should contain center=2,3" do
+        @map.url.should include("center=2,3")
+      end
+      
+      it "should contain zoom=1" do
+        @map.url.should include("zoom=1")
+      end
     end
   end
 end

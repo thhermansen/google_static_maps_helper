@@ -20,6 +20,16 @@ module GoogleStaticMapsHelper
 
     def url
       raise BuildDataMissing, "We have to have markers or center and zoom set when url is called!" unless can_build?
+      
+      out = "#{API_URL}?"
+
+      params = []
+      options.each_pair do |key, value|
+        params << "#{key}=#{URI.escape(value.to_s)}"
+      end
+      out += params.join('&')
+
+      out
     end
     
     def <<(marker)
