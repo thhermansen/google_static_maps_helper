@@ -2,16 +2,24 @@
 
 This gem provides a simple interface to the Google Static Maps V2 API (http://code.google.com/apis/maps/documentation/staticmaps/)
 
-== Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but
-   bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+
+== Marker
+A marker object is, not surprisingly, representing a marker in the Google static map. It is pushed into the Map object and is used
+to generate the URL for the static map.
+
+A marker is built as following:
+The easiest way to build a marker is by simply sending in an object which responds to lng and lat, or
+by sending lng and lat in as a hash.
+  GoogleStaticMapsHelper::Marker.new(location)
+  GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
+
+Google's static maps supports some options on markers. You can change the color, the lable and the size.
+(http://code.google.com/apis/maps/documentation/staticmaps/#MarkerStyles). You send in options as a second
+parameter to the new method, or include it in the has where lng and lat is.
+  GoogleStaticMapsHelper::Marker.new(location, :color => 'blue')
+  GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :color => 'blue')
+
+
 
 == Copyright
 
