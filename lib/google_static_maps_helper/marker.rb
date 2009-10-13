@@ -29,6 +29,7 @@ module GoogleStaticMapsHelper
 
       options_from_args = args.shift || {}
       @options = DEFAULT_OPTIONS.merge(options_from_args)
+      validate_options
     end
 
 
@@ -50,6 +51,11 @@ module GoogleStaticMapsHelper
       raise NoLatMethod unless location.respond_to? :lat
       @lat = location.lat
       @lng = location.lng
+    end
+
+    def validate_options
+      invalid_options = @options.keys - DEFAULT_OPTIONS.keys
+      raise OptionNotExist, "The following options does not exist: #{invalid_options.join(', ')}" unless invalid_options.empty?
     end
   end
 end

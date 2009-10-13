@@ -13,12 +13,12 @@ describe GoogleStaticMapsHelper::Map do
       it "should raise OptionMissing if #{key} is not given" do
         option_with_missing_option = @@require_options.dup
         option_with_missing_option.delete(key)
-        lambda {GoogleStaticMapsHelper::Map.new(option_with_missing_option)}.should raise_error(GoogleStaticMapsHelper::Map::OptionMissing)
+        lambda {GoogleStaticMapsHelper::Map.new(option_with_missing_option)}.should raise_error(GoogleStaticMapsHelper::OptionMissing)
       end
     end
 
     it "should raise OptionNotExist if incomming option doesn't exists" do
-      lambda {GoogleStaticMapsHelper::Map.new(@@require_options.merge(:invalid_option => 'error?'))}.should raise_error(GoogleStaticMapsHelper::Map::OptionNotExist)
+      lambda {GoogleStaticMapsHelper::Map.new(@@require_options.merge(:invalid_option => 'error?'))}.should raise_error(GoogleStaticMapsHelper::OptionNotExist)
     end
   end
 

@@ -82,6 +82,10 @@ describe GoogleStaticMapsHelper::Marker do
         end
       end
     end
+
+    it "should raise OptionNotExist if incomming option doesn't exists" do
+      lambda {GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :invalid_option => 'error?')}.should raise_error(GoogleStaticMapsHelper::OptionNotExist)
+    end
   end
   
 

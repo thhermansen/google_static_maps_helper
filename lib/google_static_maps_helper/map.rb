@@ -5,11 +5,6 @@ module GoogleStaticMapsHelper
   class Map
     include Enumerable
 
-    # Raised when required options is not sent in during construction
-    class OptionMissing < ArgumentError; end
-    # Raised when incoming options include keys which is invalid
-    class OptionNotExist < ArgumentError; end
-    
     REQUIRED_OPTIONS = [:key, :size, :sensor]
     OPTIONAL_OPTIONS = [:center, :zoom, :size, :format, :maptype, :mobile, :language]
     
