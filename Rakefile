@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "google_static_maps_helper"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{This gem provides a simple interface to the Google Static Maps V2 API}
+    gem.description = %Q{This gem provides a simple interface to the Google Static Maps V2 API.}
     gem.email = "thhermansen@gmail.com"
     gem.homepage = "http://github.com/thhermansen/google_static_maps_helper"
     gem.authors = ["Thorbjørn Hermansen"]
