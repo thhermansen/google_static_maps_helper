@@ -92,7 +92,7 @@ describe GoogleStaticMapsHelper::Marker do
   describe "Short cut methods" do
     [:color, :size, :label].each do |attribute|
       before :each do 
-        @options = {:lat => 1, :lng => 2, :color => 'Green', :label => 'A', :size => 'small'}
+        @options = {:lat => 1, :lng => 2, :color => 'green', :label => 'A', :size => 'small'}
         @marker = GoogleStaticMapsHelper::Marker.new(@options)
       end
 
@@ -114,6 +114,44 @@ describe GoogleStaticMapsHelper::Marker do
       marker1 = GoogleStaticMapsHelper::Marker.new(@location_hash.dup)
       marker2 = GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:color => 'green'))
       marker1.options_equal?(marker2).should be_false
+    end
+  end
+
+
+  it "should upcase the label" do
+    GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:label => 'a')).label.should == 'A'
+  end
+
+  it "should downcase the color" do
+    GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:color => 'Green')).color.should == 'green'
+  end
+
+
+  describe "generating url parameters" do
+    before :each do
+      @options = {:lat => 1, :lng => 2, :color => 'Green', :label => :a, :size => 'small'}
+      @marker = GoogleStaticMapsHelper::Marker.new(@options)
+    end
+
+    it "should contain color param" do
+      @marker.options_to_url_params.should include('color:green')
+    end
+
+    it "should contain label param" do
+      @marker.options_to_url_params.should include('label:A')
+    end
+
+    it "should contain size param" do
+      @marker.options_to_url_params.should include('size:small')
+    end
+
+    it "should not contain label param if it is nil" do
+      marker = GoogleStaticMapsHelper::Marker.new(:lat => 1, :lng => 1)
+      marker.options_to_url_params.should_not include('label')
+    end
+
+    it "should build location_to_url" do
+      @marker.location_to_url.should == '1,2'
     end
   end
 end

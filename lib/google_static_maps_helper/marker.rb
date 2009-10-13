@@ -32,6 +32,27 @@ module GoogleStaticMapsHelper
       validate_options
     end
 
+    def options_to_url_params
+      params = DEFAULT_OPTIONS.keys.inject([]) do |params, attr|
+        value = send(attr)
+        params << "#{attr}:#{value}" if value
+        params
+      end
+
+      params.join('|')
+    end
+
+    def location_to_url
+      [lat, lng].join(',')
+    end
+    
+    def label
+      options[:label].to_s.upcase if options[:label]
+    end
+
+    def color
+      options[:color].downcase if options[:color]
+    end
 
     def method_missing(method, *args, &block)
       return options[method] if options.has_key? method

@@ -53,7 +53,22 @@ describe GoogleStaticMapsHelper::Map do
     end
   end
 
+  
+  describe "Grouped markers" do
+    before :each do
+      @marker1  = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
+      @marker11 = GoogleStaticMapsHelper::Marker.new(:lng => 3, :lat => 4)
 
+      @marker2  = GoogleStaticMapsHelper::Marker.new(:lng => 5, :lat => 6, :color => 'green')
+      @marker22 = GoogleStaticMapsHelper::Marker.new(:lng => 7, :lat => 8, :color => 'green')
+      @map = GoogleStaticMapsHelper::Map.new(:key => @key, :size => @size, :sensor => @sensor)
+    end
+
+    it "should return options_to_url_params as key, array with markers as value" do
+      @map << @marker1
+      @map.grouped_markers.should == {@marker1.options_to_url_params => [@marker1]}
+    end
+  end
 
 
 
@@ -120,6 +135,35 @@ describe GoogleStaticMapsHelper::Map do
       
       it "should contain zoom=1" do
         @map.url.should include("zoom=1")
+      end
+
+      it "should not include markers param" do
+        @map.url.should_not include("markers=")
+      end
+    end
+
+
+    describe "with markers, no one grouped" do
+      before :each do
+        @map << @marker1
+        @map << @marker2
+      end
+
+      it "should contain markers=" do
+        @map.url.should == 'http://maps.google.com/maps/api/staticmap?key=MY_GOOGLE_KEY&sensor=true&size=400x600&markers=size:mid|color:green|6,5&markers=size:mid|color:red|2,1'
+      end
+    end
+
+    describe "with markers grouped together" do
+      before :each do
+        @map << @marker1
+        @map << @marker11
+        @map << @marker2
+        @map << @marker22
+      end
+
+      it "should contained grouped markers" do
+        @map.url.should == 'http://maps.google.com/maps/api/staticmap?key=MY_GOOGLE_KEY&sensor=true&size=400x600&markers=size:mid|color:green|6,5|8,7&markers=size:mid|color:red|2,1|4,3'
       end
     end
   end

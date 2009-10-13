@@ -29,7 +29,21 @@ module GoogleStaticMapsHelper
       end
       out += params.join('&')
 
+      params = []
+      grouped_markers.each_pair do |marker_options_as_url_params, markers|
+        markers_locations = markers.map { |m| m.location_to_url }.join('|')
+        params << "markers=#{marker_options_as_url_params}|#{markers_locations}"
+      end
+      out += "&#{params.join('&')}" unless params.empty?
+
       out
+    end
+
+    def grouped_markers
+      inject(Hash.new {|hash, key| hash[key] = []}) do |groups, marker|
+        groups[marker.options_to_url_params] << marker
+        groups
+      end
     end
     
     def <<(marker)
