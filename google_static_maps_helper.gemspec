@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Thorbj\303\270rn Hermansen"]
   s.date = %q{2009-10-13}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{This gem provides a simple interface to the Google Static Maps V2 API.}
   s.email = %q{thhermansen@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{This gem provides a simple interface to the Google Static Maps V2 API}
   s.test_files = [
     "spec/spec_helper.rb",
      "spec/marker_spec.rb",
