@@ -7,6 +7,10 @@ describe GoogleStaticMapsHelper::Marker do
   end
   
   describe "initialize" do
+    it "should raise ArgumentError if no arguments are given" do
+      lambda {GoogleStaticMapsHelper::Marker.new}.should raise_error(ArgumentError)
+    end
+
     describe "get location as object" do
       [:lat, :lng].each do |location_property|
         it "should extract #{location_property} from first argument if that is object" do

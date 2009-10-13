@@ -19,6 +19,8 @@ module GoogleStaticMapsHelper
     attr_reader :location, :options
 
     def initialize(*args)
+      raise ArgumentError, "Must have one or two arguments." if args.length == 0
+
       if args.first.is_a? Hash
         extract_location_from_hash!(args.first)
       else
