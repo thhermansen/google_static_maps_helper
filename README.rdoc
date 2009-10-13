@@ -48,6 +48,11 @@ Another thing you might want to do is to override the center point and zoom leve
 == Paths
 Paths are not yet supported.
 
+
+== TODO
+* Paths
+* Ruby 1.9 support
+
 == Copyright
 
 Copyright (c) 2009 Thorbjørn Hermansen. See LICENSE for details.
