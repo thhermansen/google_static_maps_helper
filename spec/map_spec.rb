@@ -16,6 +16,10 @@ describe GoogleStaticMapsHelper::Map do
         lambda {GoogleStaticMapsHelper::Map.new(option_with_missing_option)}.should raise_error(GoogleStaticMapsHelper::Map::OptionMissing)
       end
     end
+
+    it "should raise OptionNotExist if incomming option doesn't exists" do
+      lambda {GoogleStaticMapsHelper::Map.new(@@require_options.merge(:invalid_option => 'error?'))}.should raise_error(GoogleStaticMapsHelper::Map::OptionNotExist)
+    end
   end
 
   describe "markers" do
