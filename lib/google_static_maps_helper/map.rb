@@ -34,6 +34,11 @@ module GoogleStaticMapsHelper
     def length
       @markers.length
     end
+
+    def method_missing(method, *args, &block)
+      return options[method] if options.has_key? method
+      super
+    end
     
     private
     def validate_required_options(options)

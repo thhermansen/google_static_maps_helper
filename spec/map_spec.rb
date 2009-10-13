@@ -22,8 +22,13 @@ describe GoogleStaticMapsHelper::Map do
     end
 
     it "should be able to read initialized key option from object" do
-      map = GoogleStaticMapsHelper::Map.new(@@require_options)
-      map.options[:key].should == @@require_options[:key]
+      GoogleStaticMapsHelper::Map.new(@@require_options).options[:key].should == @@require_options[:key]
+    end
+
+    @@require_options.each_key do |key|
+      it "should provide a short cut method to read the option #{key}" do
+        GoogleStaticMapsHelper::Map.new(@@require_options).send(key).should == @@require_options[key]
+      end
     end
   end
 
