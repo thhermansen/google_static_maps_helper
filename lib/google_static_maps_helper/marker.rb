@@ -16,7 +16,6 @@ module GoogleStaticMapsHelper
     }
 
     attr_accessor :lat, :lng
-    attr_reader :options
 
     def initialize(*args)
       raise ArgumentError, "Must have one or two arguments." if args.length == 0
@@ -47,15 +46,15 @@ module GoogleStaticMapsHelper
     end
     
     def label
-      options[:label].to_s.upcase if options[:label]
+      @options[:label].to_s.upcase if @options[:label]
     end
 
     def color
-      options[:color].downcase if options[:color]
+      @options[:color].downcase if @options[:color]
     end
 
     def method_missing(method, *args, &block)
-      return options[method] if options.has_key? method
+      return @options[method] if @options.has_key? method
       super
     end
 

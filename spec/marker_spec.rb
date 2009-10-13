@@ -50,17 +50,17 @@ describe GoogleStaticMapsHelper::Marker do
       describe "defaults" do
         it "should have a predefined color which location should use" do
           marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.options[:color].should == 'red'
+          marker.color.should == 'red'
         end
 
         it "should have a predefined size" do
           marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.options[:size].should == 'mid'
+          marker.size.should == 'mid'
         end
 
         it "should have a predefined label which should be nil" do
           marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.options[:label].should be_nil
+          marker.label.should be_nil
         end
       end
 
@@ -68,7 +68,7 @@ describe GoogleStaticMapsHelper::Marker do
         {:color => 'blue', :size => 'small', :label => 'A'}.each_pair do |key, value|
           it "should be possible to override #{key} to #{value}" do
             marker = GoogleStaticMapsHelper::Marker.new(@location_object, {key => value})
-            marker.options[key].should == value
+            marker.send(key).should == value
           end
         end
       end
@@ -77,7 +77,7 @@ describe GoogleStaticMapsHelper::Marker do
         {:color => 'blue', :size => 'small', :label => 'A'}.each_pair do |key, value|
           it "should be possible to override #{key} to #{value}" do
             marker = GoogleStaticMapsHelper::Marker.new(@location_hash.merge({key => value}))
-            marker.options[key].should == value
+            marker.send(key).should == value
           end
         end
       end
