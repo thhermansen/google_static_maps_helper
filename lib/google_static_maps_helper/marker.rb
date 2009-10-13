@@ -32,6 +32,11 @@ module GoogleStaticMapsHelper
     end
 
 
+    def method_missing(method, *args, &block)
+      return options[method] if options.has_key? method
+      super
+    end
+
     private
     def extract_location_from_hash!(location_hash)
       raise NoLngKey unless location_hash.has_key? :lng

@@ -83,4 +83,18 @@ describe GoogleStaticMapsHelper::Marker do
       end
     end
   end
+  
+
+  describe "Short cut methods" do
+    [:color, :size, :label].each do |attribute|
+      before :each do 
+        @options = {:lat => 1, :lng => 2, :color => 'Green', :label => 'A', :size => 'small'}
+        @marker = GoogleStaticMapsHelper::Marker.new(@options)
+      end
+
+      it "should return the option #{attribute} as an attribute" do
+        @marker.send(attribute).should == @options[attribute]
+      end
+    end
+  end
 end
