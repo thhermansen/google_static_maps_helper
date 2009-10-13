@@ -6,15 +6,19 @@ module GoogleStaticMapsHelper
     include Enumerable
 
     REQUIRED_OPTIONS = [:key, :size, :sensor]
-    OPTIONAL_OPTIONS = [:center, :zoom, :size, :format, :maptype, :mobile, :language]
+    OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language]
     
-    attr_accessor :options
+    attr_accessor *(REQUIRED_OPTIONS + OPTIONAL_OPTIONS)
 
+    # Initialize a new Map object
+    #
+    # Takes a hash of options where :key, :size and :sensor are required.
+    # Other options are center, zoom, format, maptype, mobile and language
     def initialize(options)
       validate_required_options(options)
       validate_options(options)
 
-      @options = options
+      options.each_pair { |k, v| send("#{k}=", v) }
       @markers = []
     end
 
@@ -24,8 +28,9 @@ module GoogleStaticMapsHelper
       out = "#{API_URL}?"
 
       params = []
-      options.each_pair do |key, value|
-        params << "#{key}=#{URI.escape(value.to_s)}"
+      (REQUIRED_OPTIONS + OPTIONAL_OPTIONS).each do |key|
+        value = send(key)
+        params << "#{key}=#{URI.escape(value.to_s)}" if value
       end
       out += params.join('&')
 
@@ -63,16 +68,10 @@ module GoogleStaticMapsHelper
       @markers.length
     end
 
-    def method_missing(method, *args, &block)
-      return options[method] if options.has_key? method
-      return options[method.to_s.sub('=', '').to_sym] = args[0]
-      super
-    end
-    
 
     private
     def can_build?
-      !@markers.empty? || (options[:center] && options[:zoom])
+      !@markers.empty? || (center && zoom)
     end
 
     def validate_required_options(options)
