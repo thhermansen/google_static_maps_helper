@@ -31,7 +31,11 @@ The map is now ready to generate the URL you can use in your image tag:
   map.url
 
 Another thing you might want to do is to override the center point and zoom level. This is done during map construction
-  map = GoogleStaticMapsHelper::Map.new(:key => YOUR_GOOGLE_KEY, :sensor => false, :size => '200x300', :center => '1,2', :zoom => 4) 
+  map = GoogleStaticMapsHelper::Map.new(:key => YOUR_GOOGLE_KEY,
+                                        :sensor => false,
+                                        :size => '200x300',
+                                        :center => '1,2',
+                                        :zoom => 4) 
 
 == Copyright
 
