@@ -89,19 +89,6 @@ describe GoogleStaticMapsHelper::Marker do
   end
   
 
-  describe "Short cut methods" do
-    [:color, :size, :label].each do |attribute|
-      before :each do 
-        @options = {:lat => 1, :lng => 2, :color => 'green', :label => 'A', :size => 'small'}
-        @marker = GoogleStaticMapsHelper::Marker.new(@options)
-      end
-
-      it "should return the option #{attribute} as an attribute" do
-        @marker.send(attribute).should == @options[attribute]
-      end
-    end
-  end
-
 
   it "should upcase the label" do
     GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:label => 'a')).label.should == 'A'

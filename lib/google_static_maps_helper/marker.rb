@@ -15,8 +15,18 @@ module GoogleStaticMapsHelper
       :label => nil
     }
 
-    attr_accessor :lat, :lng
+    attr_accessor :lat, :lng, *DEFAULT_OPTIONS.keys
 
+    # Initialize a new Marker 
+    # 
+    # Can wither take an object which responds to lng and lat
+    # GoogleStaticMapsHelper::Marker.new(location)
+    #
+    # Or it can take a has which includes lng and lat
+    # GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
+    #
+    # You can also send in options like color, size and label in the hash,
+    # or as a secnond parameter if the first was an object.
     def initialize(*args)
       raise ArgumentError, "Must have one or two arguments." if args.length == 0
 
@@ -26,11 +36,13 @@ module GoogleStaticMapsHelper
         extract_location_from_object(args.shift)
       end
 
-      options_from_args = args.shift || {}
-      @options = DEFAULT_OPTIONS.merge(options_from_args)
-      validate_options
+      options = DEFAULT_OPTIONS.merge(args.shift || {})
+      validate_options(options)
+      options.each_pair { |k, v| send("#{k}=", v) }
     end
 
+    # Returns a string wich is what Google Static map is using to
+    # set the style on the marker. This ill include color, size and label
     def options_to_url_params
       params = DEFAULT_OPTIONS.keys.inject([]) do |params, attr|
         value = send(attr)
@@ -41,21 +53,17 @@ module GoogleStaticMapsHelper
       params.join('|')
     end
 
+    # Concatination of lat and lng value, used when building the url
     def location_to_url
       [lat, lng].join(',')
     end
     
     def label
-      @options[:label].to_s.upcase if @options[:label]
+      @label.to_s.upcase if @label
     end
 
     def color
-      @options[:color].downcase if @options[:color]
-    end
-
-    def method_missing(method, *args, &block)
-      return @options[method] if @options.has_key? method
-      super
+      @color.downcase if @color
     end
 
 
@@ -74,8 +82,8 @@ module GoogleStaticMapsHelper
       @lng = location.lng
     end
 
-    def validate_options
-      invalid_options = @options.keys - DEFAULT_OPTIONS.keys
+    def validate_options(options)
+      invalid_options = options.keys - DEFAULT_OPTIONS.keys
       raise OptionNotExist, "The following options does not exist: #{invalid_options.join(', ')}" unless invalid_options.empty?
     end
   end
