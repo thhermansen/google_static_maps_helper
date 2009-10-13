@@ -8,7 +8,7 @@ module GoogleStaticMapsHelper
     REQUIRED_OPTIONS = [:key, :size, :sensor]
     OPTIONAL_OPTIONS = [:center, :zoom, :size, :format, :maptype, :mobile, :language]
     
-    attr_reader :options
+    attr_accessor :options
 
     def initialize(options)
       validate_required_options(options)
@@ -65,6 +65,7 @@ module GoogleStaticMapsHelper
 
     def method_missing(method, *args, &block)
       return options[method] if options.has_key? method
+      return options[method.to_s.sub('=', '').to_sym] = args[0]
       super
     end
     

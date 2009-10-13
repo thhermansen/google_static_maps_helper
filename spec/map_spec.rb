@@ -22,7 +22,7 @@ describe GoogleStaticMapsHelper::Map do
     end
 
     it "should be able to read initialized key option from object" do
-      GoogleStaticMapsHelper::Map.new(@@require_options).options[:key].should == @@require_options[:key]
+      GoogleStaticMapsHelper::Map.new(@@require_options).key.should == @@require_options[:key]
     end
 
     @@require_options.each_key do |key|
@@ -66,7 +66,13 @@ describe GoogleStaticMapsHelper::Map do
 
     it "should return options_to_url_params as key, array with markers as value" do
       @map << @marker1
-      @map.grouped_markers.should == {@marker1.options_to_url_params => [@marker1]}
+      @map << @marker11
+      @map << @marker2
+      @map << @marker22
+      @map.grouped_markers.should == {
+        @marker1.options_to_url_params => [@marker1, @marker11],
+        @marker2.options_to_url_params => [@marker2, @marker22]
+      }
     end
   end
 
@@ -97,14 +103,16 @@ describe GoogleStaticMapsHelper::Map do
       end
 
       it "should not raise exception if center and zoom is set" do
-        @map.options.merge!(:zoom => 1, :center => '1,1')
+        @map.zoom = 1
+        @map.center = '1,1'
         lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
       end
     end
 
     describe "required parameters" do
       before :each do
-        @map.options.merge!(:zoom => 12, :center => '1,1')
+        @map.zoom = 1
+        @map.center = '1,1'
       end
 
       it "should start with the URL to the API" do
@@ -126,11 +134,12 @@ describe GoogleStaticMapsHelper::Map do
 
     describe "with no markers in map" do
       before :each do
-        @map.options.merge!(:zoom => 1, :center => '2,3')
+        @map.zoom = 1
+        @map.center = '1,1'
       end
       
       it "should contain center=2,3" do
-        @map.url.should include("center=2,3")
+        @map.url.should include("center=1,1")
       end
       
       it "should contain zoom=1" do
