@@ -7,4 +7,5 @@ module GoogleStaticMapsHelper
 
   class OptionMissing < ArgumentError; end # Raised when required options is not sent in during construction
   class OptionNotExist < ArgumentError; end # Raised when incoming options include keys which is invalid
+  class BuildDataMissing < Exception; end # Raised when incoming options include keys which is invalid
 end

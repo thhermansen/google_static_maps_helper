@@ -52,4 +52,37 @@ describe GoogleStaticMapsHelper::Map do
       @map.length.should == 1
     end
   end
+
+
+
+
+
+  before :each do
+    @key = 'MY_GOOGLE_KEY'
+    @size = '400x600'
+    @sensor = true
+    @map = GoogleStaticMapsHelper::Map.new(:key => @key, :size => @size, :sensor => @sensor)
+    
+    @marker1  = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
+    @marker11 = GoogleStaticMapsHelper::Marker.new(:lng => 3, :lat => 4)
+
+    @marker2  = GoogleStaticMapsHelper::Marker.new(:lng => 5, :lat => 6, :color => 'green')
+    @marker22 = GoogleStaticMapsHelper::Marker.new(:lng => 7, :lat => 8, :color => 'green')
+  end
+
+  describe "URL" do
+    it "should raise exception if called with no markers nor center and zoom" do
+      lambda{@map.url}.should raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+    end
+
+    it "should not raise exception if markers are in map" do
+      @map << @marker1
+      lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+    end
+
+    it "should not raise exception if center and zoom is set" do
+      @map.options.merge!(:zoom => 1, :center => '1,1')
+      lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+    end
+  end
 end

@@ -17,6 +17,10 @@ module GoogleStaticMapsHelper
       @options = options
       @markers = []
     end
+
+    def url
+      raise BuildDataMissing, "We have to have markers or center and zoom set when url is called!" unless can_build?
+    end
     
     def <<(marker)
       @markers << marker
@@ -40,7 +44,12 @@ module GoogleStaticMapsHelper
       super
     end
     
+
     private
+    def can_build?
+      !@markers.empty? || (options[:center] && options[:zoom])
+    end
+
     def validate_required_options(options)
       missing_options = REQUIRED_OPTIONS - options.keys
       raise OptionMissing, "The following required options are missing: #{missing_options.join(', ')}" unless missing_options.empty?
