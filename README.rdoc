@@ -1,6 +1,6 @@
 = google_static_maps_helper
 
-Description goes here.
+This gem provides a simple interface to the Google Static Maps V2 API (http://code.google.com/apis/maps/documentation/staticmaps/)
 
 == Note on Patches/Pull Requests
  
