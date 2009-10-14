@@ -156,8 +156,8 @@ describe GoogleStaticMapsHelper::Map do
         ['key', 'MY_GOOGLE_KEY'],
         ['sensor', 'true'],
         ['size', '400x600'],
-        ['markers', 'size:mid|color:green|6,5'],
-        ['markers', 'size:mid|color:red|2,1']
+        ['markers', 'color:green|size:mid|6,5'],
+        ['markers', 'color:red|size:mid|2,1']
       ].each do |pair|
         key, value = pair
         it "should have key: #{key} and value: #{value}" do
@@ -178,8 +178,8 @@ describe GoogleStaticMapsHelper::Map do
         ['key', 'MY_GOOGLE_KEY'],
         ['sensor', 'true'],
         ['size', '400x600'],
-        ['markers', 'size:mid|color:green|6,5|8,7'],
-        ['markers', 'size:mid|color:red|2,1|4,3']
+        ['markers', 'color:green|size:mid|6,5|8,7'],
+        ['markers', 'color:red|size:mid|2,1|4,3']
       ].each do |pair|
         key, value = pair
         it "should have key: #{key} and value: #{value}" do

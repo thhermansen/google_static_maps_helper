@@ -44,7 +44,7 @@ module GoogleStaticMapsHelper
     # Returns a string wich is what Google Static map is using to
     # set the style on the marker. This ill include color, size and label
     def options_to_url_params
-      params = DEFAULT_OPTIONS.keys.inject([]) do |params, attr|
+      params = DEFAULT_OPTIONS.keys.map(&:to_s).sort.inject([]) do |params, attr|
         value = send(attr)
         params << "#{attr}:#{URI.escape(value)}" if value
         params
