@@ -46,7 +46,7 @@ module GoogleStaticMapsHelper
     def options_to_url_params
       params = DEFAULT_OPTIONS.keys.map(&:to_s).sort.inject([]) do |params, attr|
         value = send(attr)
-        params << "#{attr}:#{URI.escape(value)}" if value
+        params << "#{attr}:#{URI.escape(value)}" unless value.nil?
         params
       end
 

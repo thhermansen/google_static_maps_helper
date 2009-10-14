@@ -76,7 +76,7 @@ describe GoogleStaticMapsHelper::Map do
     before :each do
       @key = 'MY_GOOGLE_KEY'
       @size = '400x600'
-      @sensor = true
+      @sensor = false
       @map = GoogleStaticMapsHelper::Map.new(:key => @key, :size => @size, :sensor => @sensor)
       
       @marker1  = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
@@ -154,7 +154,7 @@ describe GoogleStaticMapsHelper::Map do
       
       [
         ['key', 'MY_GOOGLE_KEY'],
-        ['sensor', 'true'],
+        ['sensor', 'false'],
         ['size', '400x600'],
         ['markers', 'color:green|size:mid|6,5'],
         ['markers', 'color:red|size:mid|2,1']
@@ -168,6 +168,7 @@ describe GoogleStaticMapsHelper::Map do
 
     describe "with markers grouped together" do
       before :each do
+        @map.sensor = true
         @map << @marker1
         @map << @marker11
         @map << @marker2

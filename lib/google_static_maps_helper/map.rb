@@ -30,7 +30,7 @@ module GoogleStaticMapsHelper
       params = []
       (REQUIRED_OPTIONS + OPTIONAL_OPTIONS).each do |key|
         value = send(key)
-        params << "#{key}=#{URI.escape(value.to_s)}" if value
+        params << "#{key}=#{URI.escape(value.to_s)}" unless value.nil?
       end
       out += params.join('&')
 
