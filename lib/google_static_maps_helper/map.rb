@@ -68,6 +68,11 @@ module GoogleStaticMapsHelper
       @markers.length
     end
 
+    def marker(*args)
+      marker = Marker.new(*args)
+      self << marker
+    end
+
 
     private
     def can_build?

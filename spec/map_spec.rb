@@ -188,4 +188,10 @@ describe GoogleStaticMapsHelper::Map do
       end
     end
   end
+  
+  it "should provide a helper method named marker which will create a new marker and add it to the map" do
+    map = GoogleStaticMapsHelper::Map.new(@@require_options)
+    map.marker(:lat => 1, :lng => 2)
+    map.length.should eql(1)
+  end
 end

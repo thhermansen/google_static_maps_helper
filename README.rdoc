@@ -2,6 +2,37 @@
 
 This gem provides a simple interface to the Google Static Maps V2 API (http://code.google.com/apis/maps/documentation/staticmaps/)
 
+
+= Installation
+If you haven't already, add gemcutter as a gem source
+  [sudo] gem sources --add http://gemcutter.org
+
+Then install this gem
+  [sudo] gem install google_static_maps_helper
+
+
+= The easiest way of generating a Google Static Maps URL
+
+  GoogleStaticMapsHelper.url_for do
+    marker :lng => 1, :lat => 2
+    marker :lng => 3, :lat => 4
+  end
+
+This will return the url for map with these markers. Place note that if you do use this approach you have to set key, size and sensor setting.
+You do this by:
+  GoogleStaticMapsHelper.key = 'your google key'
+  GoogleStaticMapsHelper.size = '300x600'
+  GoogleStaticMapsHelper.sensor = false
+
+If you are on Rails you can put it in your environment configuration file and while you are there you can add the following line inside the configuration block:
+  Rails::Initializer.run do |config|
+    config.gem 'google_static_maps_helper', :source => 'http://gemcutter.org'
+    ...
+  end
+
+
+= A bit more "low-level" approach instantiating objects yourself
+
 == Marker
 A marker object is, not surprisingly, representing a marker in the Google static map. It is pushed into the Map object and is used
 to generate the URL for the static map. Markers which are of the same "type" (same color, label and size) are grouped together in the generated URL
@@ -44,6 +75,8 @@ Another thing you might want to do is to override the center point and zoom leve
                                         :size => '200x300',
                                         :center => '1,2',
                                         :zoom => 4)
+
+
 
 == Paths
 Paths are not yet supported.
