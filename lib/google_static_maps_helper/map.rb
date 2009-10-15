@@ -15,6 +15,7 @@ module GoogleStaticMapsHelper
     # Takes a hash of options where :key, :size and :sensor are required.
     # Other options are center, zoom, format, maptype, mobile and language
     def initialize(options)
+      inject_defaults_from_module_class_attribute!(options)
       validate_required_options(options)
       validate_options(options)
 
@@ -88,6 +89,14 @@ module GoogleStaticMapsHelper
     def validate_options(options)
       invalid_options = options.keys - REQUIRED_OPTIONS - OPTIONAL_OPTIONS
       raise OptionNotExist, "The following options does not exist: #{invalid_options.join(', ')}" unless invalid_options.empty?
+    end
+
+    def inject_defaults_from_module_class_attribute!(options)
+      REQUIRED_OPTIONS.each do |option_key|
+        next if options.has_key? option_key
+        value_from_modul = GoogleStaticMapsHelper.send(option_key)
+        options[option_key] = value_from_modul unless value_from_modul.nil?
+      end
     end
   end
 end

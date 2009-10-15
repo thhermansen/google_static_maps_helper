@@ -60,6 +60,12 @@ zoom and center. More info can be found here: http://code.google.com/apis/maps/d
 When building a map object you have to supply key, sensor and size. Other options are optional.
   map = GoogleStaticMapsHelper::Map.new(:key => YOUR_GOOGLE_KEY, :sensor => false, :size => '200x300')
 
+Or, if you have set default options on GoogleStaticMapsHelper, you can skip the required keys when creating a map
+  GoogleStaticMapsHelper.key = 'your google key'
+  GoogleStaticMapsHelper.size = '300x600'
+  GoogleStaticMapsHelper.sensor = false
+  map = GoogleStaticMapsHelper::Map.new
+
 
 == Generate static map URL
 With the map object made, we are ready to add some markers to it:

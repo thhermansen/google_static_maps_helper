@@ -13,7 +13,7 @@ module GoogleStaticMapsHelper
     attr_accessor :key, :size, :sensor
 
     def url_for(map_options = {}, &block)
-      map = Map.new({:key => key, :size => size, :sensor => sensor}.merge(map_options))
+      map = Map.new(map_options)
       block.arity < 1 ? map.instance_eval(&block) : block.call(map)
       map.url
     end

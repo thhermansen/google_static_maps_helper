@@ -7,8 +7,11 @@ describe GoogleStaticMapsHelper::Map do
     :sensor => false
   }
 
-
   describe "initialize" do
+    before do
+      @@require_options.each_key {|k| GoogleStaticMapsHelper.send("#{k}=", nil)}
+    end
+
     @@require_options.each_key do |key|
       it "should raise OptionMissing if #{key} is not given" do
         option_with_missing_option = @@require_options.dup
@@ -23,6 +26,15 @@ describe GoogleStaticMapsHelper::Map do
 
     it "should be able to read initialized key option from object" do
       GoogleStaticMapsHelper::Map.new(@@require_options).key.should == @@require_options[:key]
+    end
+    
+    @@require_options.each_key do |key|
+      it "should use #{key} from GoogleStaticMapsHelper class attribute if set" do
+        option_with_missing_option = @@require_options.dup
+        GoogleStaticMapsHelper.send("#{key}=", option_with_missing_option.delete(key))
+        map = GoogleStaticMapsHelper::Map.new(option_with_missing_option)
+        map.send(key).should == GoogleStaticMapsHelper.send(key)
+      end
     end
   end
 
