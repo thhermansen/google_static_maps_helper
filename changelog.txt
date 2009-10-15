@@ -1,0 +1,20 @@
+= v.1.2.3 (in git)
+* It is no longer needed to send in key, sensor and size to the Map's constructor as long as these values are set on GoogleStaticMapsHelper.
+
+= v.1.2.2
+* It is now possible to chain the pushing of markers on to map.
+
+= v.1.2.1
+* Bugfix: Sensor wasn't included in the generated URL if it was false.
+
+= v.1.2.0
+* Added a simple DSL interface which should make it easier to use.
+* Fixed a missing escape of an get parameter.
+
+= v.1.1.0
+* Refactored Map class. No longer using internal hash to store the options, but instance variables
+* Refactored Marker class. Same as above.
+* Wrote better test for testing params the URL returned.
+
+= v.1.0.0
+First release. Basic functionality in place which makes usable.
