@@ -64,7 +64,7 @@ When building a map object you have to supply key, sensor and size. Other option
 == Generate static map URL
 With the map object made, we are ready to add some markers to it:
   map << marker
-  map << another_marker
+  map << another_marker << yet_another_marker << and_one_more_marker
 
 We can now ask the map for it's URL to where we'll get the requested map from. This URL can be used as src attribute on an image tag.
   map.url

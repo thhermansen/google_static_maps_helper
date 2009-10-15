@@ -45,6 +45,11 @@ describe GoogleStaticMapsHelper::Map do
       @map << @marker
       @map.length.should == 1
     end
+
+    it "should be able to push map << marker << marker" do
+      @map << @marker << GoogleStaticMapsHelper::Marker.new(:lat => 3, :lng => 5)
+      @map.length.should == 2
+    end
   end
 
   

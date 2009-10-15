@@ -54,6 +54,7 @@ module GoogleStaticMapsHelper
     def <<(marker)
       @markers << marker
       @markers.uniq!
+      self
     end
 
     def each
