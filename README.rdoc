@@ -18,7 +18,7 @@ Then install this gem
     marker :lng => 3, :lat => 4
   end
 
-This will return the url for map with these markers. Place note that if you do use this approach you have to set key, size and sensor setting.
+This will return the url for map with these markers. Please note that if you do use this approach you have to set key, size and sensor setting.
 You do this by:
   GoogleStaticMapsHelper.key = 'your google key'
   GoogleStaticMapsHelper.size = '300x600'
