@@ -101,6 +101,16 @@ describe GoogleStaticMapsHelper::Map do
     it "should return map's height" do
       @map.height.should == 400
     end
+
+    it "should be able to set width with width :-)" do
+      @map.width = '300'
+      @map.width.should == 300
+    end
+
+    it "should be able to set height" do
+      @map.height = '300'
+      @map.height.should == 300
+    end
   end
 
   describe "URL" do

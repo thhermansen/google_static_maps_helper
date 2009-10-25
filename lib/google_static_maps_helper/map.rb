@@ -77,11 +77,21 @@ module GoogleStaticMapsHelper
     end
     
     def size=(size)
-      @width, @height = size.split('x').map(&:to_i) unless size.nil?
+      unless size.nil?
+        width, height = size.split('x')
+        self.width = width
+        self.height = height
+      end
     end
 
     def size
       [@width, @height].join('x')
+    end
+
+    [:width, :height].each do |name|
+      define_method "#{name}=" do |dimension|
+        instance_variable_set("@#{name}", dimension.to_i)
+      end
     end
 
     private
