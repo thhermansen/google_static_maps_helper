@@ -78,7 +78,18 @@ module GoogleStaticMapsHelper
     
     def size=(size)
       unless size.nil?
-        width, height = size.split('x')
+        case size
+        when String
+          width, height = size.split('x')
+        when Array
+          width, height = size
+        when Hash
+          width = size[:width]
+          height = size[:height]
+        else
+          raise "Don't know how to set size from #{size.class}!"
+        end
+
         self.width = width
         self.height = height
       end

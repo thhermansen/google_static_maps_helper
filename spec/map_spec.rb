@@ -111,6 +111,16 @@ describe GoogleStaticMapsHelper::Map do
       @map.height = '300'
       @map.height.should == 300
     end
+
+    it "should be able to set width and height via size as an array" do
+      @map.size = [200, 300]
+      @map.size.should == '200x300'
+    end
+
+    it "should be able to set width and height via size as a hash" do
+      @map.size = {:width => 100, :height => 500}
+      @map.size.should == '100x500'
+    end
   end
 
   describe "URL" do
