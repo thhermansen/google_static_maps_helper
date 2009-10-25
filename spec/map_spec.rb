@@ -88,6 +88,20 @@ describe GoogleStaticMapsHelper::Map do
   end
 
 
+  describe "size" do
+    before do
+      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+      @map.size = '300x400'
+    end
+
+    it "should return map's width" do
+      @map.width.should == 300
+    end
+
+    it "should return map's height" do
+      @map.height.should == 400
+    end
+  end
 
   describe "URL" do
     before :each do

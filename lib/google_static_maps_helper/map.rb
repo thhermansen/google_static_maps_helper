@@ -9,6 +9,7 @@ module GoogleStaticMapsHelper
     OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language]
     
     attr_accessor *(REQUIRED_OPTIONS + OPTIONAL_OPTIONS)
+    attr_accessor :width, :height
 
     # Initialize a new Map object
     #
@@ -74,7 +75,14 @@ module GoogleStaticMapsHelper
       marker = Marker.new(*args)
       self << marker
     end
+    
+    def size=(size)
+      @width, @height = size.split('x').map(&:to_i) unless size.nil?
+    end
 
+    def size
+      [@width, @height].join('x')
+    end
 
     private
     def can_build?
