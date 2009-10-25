@@ -1,6 +1,8 @@
-= v.1.2.3 (in git)
+= v.1.2.3
 * It is no longer needed to send in key, sensor and size to the Map's constructor as long as these values are set on GoogleStaticMapsHelper.
 * A map does now respond to width and height.
+* The map can now receive size as string, array or hash.
+* The map will raise an error if width/height is above the limit which Google currently has (640 pixels).
 
 = v.1.2.2
 * It is now possible to chain the pushing of markers on to map.
