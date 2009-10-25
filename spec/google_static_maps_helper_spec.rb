@@ -22,11 +22,11 @@ describe GoogleStaticMapsHelper do
       end
 
       it "should be possible to override the default map construction values" do
-        out = GoogleStaticMapsHelper.url_for(:size => '800x800') do
+        out = GoogleStaticMapsHelper.url_for(:size => '600x400') do
           marker :lat => 1, :lng => 2
         end
 
-        out.should include('size=800x800')
+        out.should include('size=600x400')
       end
 
       it "should be possible to use inside a class, using attributes of that class" do

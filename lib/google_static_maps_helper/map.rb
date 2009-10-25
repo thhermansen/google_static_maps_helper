@@ -5,6 +5,9 @@ module GoogleStaticMapsHelper
   class Map
     include Enumerable
 
+    MAX_WIDTH = 640
+    MAX_HEIGHT = 640
+
     REQUIRED_OPTIONS = [:key, :size, :sensor]
     OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language]
     
@@ -101,7 +104,10 @@ module GoogleStaticMapsHelper
 
     [:width, :height].each do |name|
       define_method "#{name}=" do |dimension|
-        instance_variable_set("@#{name}", dimension.to_i)
+        dimension = dimension.to_i
+        max_dimension = self.class.const_get("MAX_#{name.to_s.upcase}")
+        raise "Incomming dimension (#{dimension}) above max limit (#{max_dimension})." if dimension > max_dimension
+        instance_variable_set("@#{name}", dimension)
       end
     end
 

@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe GoogleStaticMapsHelper::Map do
   @@require_options = {
-    :size => '800x600',
+    :size => '600x400',
     :key => 'MY_GOOGLE_KEY',
     :sensor => false
   }
@@ -130,6 +130,14 @@ describe GoogleStaticMapsHelper::Map do
     it "should be possible to only set width via size as a hash" do
       @map.size = {:width => 500}
       @map.size.should == '500x400'
+    end
+
+    it "should raise an error if width is above 640px as it is not supported by Google Maps" do
+      lambda {@map.width = 641}.should raise_error
+    end
+
+    it "should raise an error if height is above 640px as it is not supported by Google Maps" do
+      lambda {@map.height = 641}.should raise_error
     end
   end
 
