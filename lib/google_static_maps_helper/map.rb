@@ -90,8 +90,8 @@ module GoogleStaticMapsHelper
           raise "Don't know how to set size from #{size.class}!"
         end
 
-        self.width = width
-        self.height = height
+        self.width = width if width
+        self.height = height if height
       end
     end
 
