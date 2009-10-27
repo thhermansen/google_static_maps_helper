@@ -141,6 +141,28 @@ describe GoogleStaticMapsHelper::Map do
     end
   end
 
+  describe "format" do
+    before do
+      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+    end
+
+    %w{png png8 png32 gif jpg jpg-basedline}.each do |format|
+      it "should be possible to set a format to #{format}" do
+        @map.format = format
+        @map.format.should == format
+      end
+    end
+
+    it "should be able to set format as symbol" do
+      @map.format = :jpg
+      @map.format.should == 'jpg'
+    end
+
+    it "should raise an error if format is not supported" do
+      lambda {@map.format = :not_supported}.should raise_error(GoogleStaticMapsHelper::UnsupportedFormat)
+    end
+  end
+
   describe "URL" do
     before :each do
       @key = 'MY_GOOGLE_KEY'
@@ -192,6 +214,15 @@ describe GoogleStaticMapsHelper::Map do
       
       it "should include the sensor" do
         @map.url.should include("sensor=#{@sensor}")
+      end
+
+      it "should not include format as default" do
+        @map.url.should_not include("format=")
+      end
+
+      it "should include format if it has been set" do
+        @map.format = :jpg
+        @map.url.should include("format=jpg")
       end
     end
 

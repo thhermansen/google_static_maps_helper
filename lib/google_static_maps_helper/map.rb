@@ -8,8 +8,10 @@ module GoogleStaticMapsHelper
     MAX_WIDTH = 640
     MAX_HEIGHT = 640
 
+    VALID_FORMATS = %w{png png8 png32 gif jpg jpg-basedline}
+
     REQUIRED_OPTIONS = [:key, :size, :sensor]
-    OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language]
+    OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language, :format]
     
     attr_accessor *(REQUIRED_OPTIONS + OPTIONAL_OPTIONS)
     attr_accessor :width, :height
@@ -110,6 +112,12 @@ module GoogleStaticMapsHelper
         instance_variable_set("@#{name}", dimension)
       end
     end
+
+    def format=(format)
+      @format = format.to_s
+      raise UnsupportedFormat unless VALID_FORMATS.include? @format
+    end
+
 
     private
     def can_build?
