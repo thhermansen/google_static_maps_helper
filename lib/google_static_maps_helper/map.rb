@@ -9,9 +9,10 @@ module GoogleStaticMapsHelper
     MAX_HEIGHT = 640
 
     VALID_FORMATS = %w{png png8 png32 gif jpg jpg-basedline}
+    VALID_MAP_TYPES = %w{roadmap satellite terrain hybrid}
 
     REQUIRED_OPTIONS = [:key, :size, :sensor]
-    OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language, :format]
+    OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language, :format, :maptype]
     
     attr_accessor *(REQUIRED_OPTIONS + OPTIONAL_OPTIONS)
     attr_accessor :width, :height
@@ -116,6 +117,11 @@ module GoogleStaticMapsHelper
     def format=(format)
       @format = format.to_s
       raise UnsupportedFormat unless VALID_FORMATS.include? @format
+    end
+
+    def maptype=(type)
+      @maptype = type.to_s
+      raise UnsupportedMaptype unless VALID_MAP_TYPES.include? @maptype
     end
 
 

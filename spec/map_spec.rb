@@ -163,6 +163,28 @@ describe GoogleStaticMapsHelper::Map do
     end
   end
 
+  describe "map type" do
+    before do
+      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+    end
+
+    %w{roadmap satellite terrain hybrid}.each do |type|
+      it "should be possible to set map type to #{type}" do
+        @map.maptype = type
+        @map.maptype.should == type
+      end
+    end
+
+    it "should be possible to set map type as a symbol" do
+      @map.maptype = :satellite
+      @map.maptype.should == 'satellite'
+    end
+
+    it "should raise error if map type is not supported" do
+      lambda {@map.maptype = :not_supported}.should raise_error(GoogleStaticMapsHelper::UnsupportedMaptype)
+    end
+  end
+
   describe "URL" do
     before :each do
       @key = 'MY_GOOGLE_KEY'
@@ -223,6 +245,15 @@ describe GoogleStaticMapsHelper::Map do
       it "should include format if it has been set" do
         @map.format = :jpg
         @map.url.should include("format=jpg")
+      end
+
+      it "should not include map type as default" do
+        @map.url.should_not include("maptype=")
+      end
+
+      it "should include map type if it has been set" do
+        @map.maptype = :satellite
+        @map.url.should include("maptype=satellite")
       end
     end
 

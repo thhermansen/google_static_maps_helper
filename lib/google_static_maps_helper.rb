@@ -9,6 +9,7 @@ module GoogleStaticMapsHelper
   class OptionNotExist < ArgumentError; end # Raised when incoming options include keys which is invalid
   class BuildDataMissing < Exception; end # Raised when incoming options include keys which is invalid
   class UnsupportedFormat < ArgumentError; end # Raised when a format is not supported
+  class UnsupportedMaptype < ArgumentError; end # Raised when the map type is not supported
 
   class << self
     attr_accessor :key, :size, :sensor
