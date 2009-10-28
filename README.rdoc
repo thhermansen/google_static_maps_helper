@@ -84,12 +84,24 @@ Another thing you might want to do is to override the center point and zoom leve
 
 
 
-== Paths
-Paths are not yet supported.
+== Paths and Polygons
+It is also possible to create Paths and Polygons and to use them together with markers. To create a Path you need two Points and a Path object:
+  path = GoogleStaticMapsHelper::Path.new
+  start_point = {:lat => 1, :lng => 2} # You can also use any object which responds to lat and lng here
+  end_point = {:lat => 1, :lng => 2}
+  path << start_point << end_point
+  map << path
+  map.url
+
+To create a polygon you need one more point, and to set the fillcolor of the path to a valid color. Setting the fill
+color is what will trigger the creation of polygons for the static map API.
+  path = GoogleStaticMapsHelper::Path.new(:fillcolor => :red, :weight => 3, :color => :blue)
+  path << point1 << point2 << point3
+  map << path
+  map.url
 
 
 == TODO
-* Paths
 * Ruby 1.9 support
 
 == Copyright

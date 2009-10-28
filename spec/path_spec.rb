@@ -67,6 +67,11 @@ describe GoogleStaticMapsHelper::Path do
       @path.first.should be_an_instance_of(GoogleStaticMapsHelper::Location)
     end
 
+    it "should fetch lat and lng values from any object which responds to it" do
+      @path << mock(:point, :lat => 1, :lng => 2)
+      @path.first.should be_an_instance_of(GoogleStaticMapsHelper::Location)
+    end
+
     it "should raise an error if points setter doesn't receive an array" do
       lambda {@path.points = nil}.should raise_error(ArgumentError)
     end
