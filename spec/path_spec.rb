@@ -121,5 +121,9 @@ describe GoogleStaticMapsHelper::Path do
       @path.weight = 3
       @path.url_params.should == 'path=weight:3|1,2|3,4'
     end
+
+    it "should concat point locations without any path options" do
+      @path.url_params.should == 'path=1,2|3,4'
+    end
   end
 end

@@ -16,13 +16,13 @@ module GoogleStaticMapsHelper
       raise BuildDataMissing, "Need at least 2 points to create a path!" unless can_build?
       out = 'path='
      
-      out += OPTIONAL_OPTIONS.inject([]) do |path_params, attribute|
+      path_params = OPTIONAL_OPTIONS.inject([]) do |path_params, attribute|
         value = send(attribute)
         path_params << "#{attribute}:#{URI.escape(value.to_s)}" unless value.nil?
         path_params
       end.join('|')
 
-      out += '|'
+      out += "#{path_params}|" unless path_params.empty?
 
       out += inject([]) do |point_params, point|
         point_params << point.to_url
