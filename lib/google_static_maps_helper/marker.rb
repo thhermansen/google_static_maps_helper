@@ -50,7 +50,7 @@ module GoogleStaticMapsHelper
 
     # Concatination of lat and lng value, used when building the url
     def location_to_url
-      [lat, lng].join(',')
+      @location.to_url
     end
     
     def label

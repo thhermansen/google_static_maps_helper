@@ -45,4 +45,8 @@ describe GoogleStaticMapsHelper::Location do
       end
     end
   end
+
+  it "should return to_url with its lat and lng value" do
+    GoogleStaticMapsHelper::Location.new(@location_hash).to_url.should == '10,20'
+  end
 end

@@ -1,9 +1,9 @@
 module GoogleStaticMapsHelper
 
-# Represents a location (latitude and longitude)
-#
-# This class will also hold logic like travel_to(heading, distance) which will make
-# drawing paths and polygons easier.
+  # Represents a location (latitude and longitude)
+  #
+  # This class will also hold logic like travel_to(heading, distance) which will make
+  # drawing paths and polygons easier.
   class Location
     class NoLngMethod < NoMethodError; end
     class NoLatMethod < NoMethodError; end
@@ -21,8 +21,11 @@ module GoogleStaticMapsHelper
         extract_location_from_object(args.shift)
       end
     end
-
     
+    def to_url
+      [lat, lng].join(',')
+    end
+
     private
     def extract_location_from_hash!(location_hash)
       raise NoLngKey unless location_hash.has_key? :lng
