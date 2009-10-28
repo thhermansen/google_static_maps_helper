@@ -2,6 +2,7 @@ require 'uri'
 require File.dirname(__FILE__) + '/google_static_maps_helper/map'
 require File.dirname(__FILE__) + '/google_static_maps_helper/location'
 require File.dirname(__FILE__) + '/google_static_maps_helper/marker'
+require File.dirname(__FILE__) + '/google_static_maps_helper/path'
 
 module GoogleStaticMapsHelper
   API_URL = 'http://maps.google.com/maps/api/staticmap'
