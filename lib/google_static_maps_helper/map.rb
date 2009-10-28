@@ -48,6 +48,10 @@ module GoogleStaticMapsHelper
         params << "markers=#{marker_options_as_url_params}|#{markers_locations}"
       end
       out += "&#{params.join('&')}" unless params.empty?
+      
+      params = []
+      paths.each {|path| params << path.url_params}
+      out += "&#{params.join('&')}" unless params.empty?
 
       out
     end

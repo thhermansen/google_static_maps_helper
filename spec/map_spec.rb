@@ -350,7 +350,37 @@ describe GoogleStaticMapsHelper::Map do
     end
 
     describe "paths" do
-      # TODO
+      before do
+        @path = GoogleStaticMapsHelper::Path.new
+        @point = GoogleStaticMapsHelper::Location.new(:lat => 1, :lng => 2)
+        @point2 = GoogleStaticMapsHelper::Location.new(:lat => 3, :lng => 4)
+        @path << @point << @point2
+      end
+      
+      it "should not include path in url if no paths are represented in the map" do
+        @map.center = '1,2'
+        @map.zoom = 11
+        @map.url.should_not include("path=")
+      end
+
+      it "should include path in url if paths are represented in the map" do
+        @map << @path
+        @map.url.should include("path=")
+      end
+
+      [
+        ['key', 'MY_GOOGLE_KEY'],
+        ['sensor', 'false'],
+        ['size', '400x600'],
+        ['path', 'weight:5|1,2|3,4'],
+      ].each do |pair|
+        key, value = pair
+        it "should have key: #{key} and value: #{value}" do
+          @path.weight = 5
+          @map << @path
+          @map.url.should include("#{key}=#{value}")
+        end
+      end
     end
   end
   
