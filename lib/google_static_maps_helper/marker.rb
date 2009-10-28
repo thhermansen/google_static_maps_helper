@@ -3,11 +3,6 @@ module GoogleStaticMapsHelper
   # The wrapper keeps track of additional parameters for the Google map
   # to be used, like size color and label.
   class Marker
-    class NoLngMethod < NoMethodError; end
-    class NoLatMethod < NoMethodError; end
-    class NoLatKey < ArgumentError; end
-    class NoLngKey < ArgumentError; end
-
     # These options are the one we build our parameters from
     DEFAULT_OPTIONS = {
       :color => 'red',
@@ -15,7 +10,7 @@ module GoogleStaticMapsHelper
       :label => nil
     }
 
-    attr_accessor :lat, :lng, *DEFAULT_OPTIONS.keys
+    attr_accessor :location, *DEFAULT_OPTIONS.keys
 
     # Initialize a new Marker 
     # 
@@ -67,19 +62,21 @@ module GoogleStaticMapsHelper
     end
 
 
+    def method_missing(method, *args)
+      return @location.send(method, *args) if @location.respond_to? method
+      super
+    end
+
     private
     def extract_location_from_hash!(location_hash)
-      raise NoLngKey unless location_hash.has_key? :lng
-      raise NoLatKey unless location_hash.has_key? :lat
-      @lat = location_hash.delete(:lat)
-      @lng = location_hash.delete(:lng)
+      to_object = {}
+      to_object[:lat] = location_hash.delete :lat if location_hash.has_key? :lat
+      to_object[:lng] = location_hash.delete :lng if location_hash.has_key? :lng
+      @location = Location.new(to_object)
     end
 
     def extract_location_from_object(location)
-      raise NoLngMethod unless location.respond_to? :lng
-      raise NoLatMethod unless location.respond_to? :lat
-      @lat = location.lat
-      @lng = location.lng
+      @location = Location.new(location)
     end
 
     def validate_options(options)

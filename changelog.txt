@@ -1,6 +1,7 @@
 = v.1.2.4 (in git)
 * The map may now request a URL for a specified image format. As an exampe, set map.format = :jpg to get smaller images (but also less quality).
 * You can now request different map types, like satellite, hybrid, terrain etc.
+* The marker has no responsibility for it's location any more. It hands off the work to Location object if it is asked for anything related to Location.
 
 = v.1.2.3
 * It is no longer needed to send in key, sensor and size to the Map's constructor as long as these values are set on GoogleStaticMapsHelper.

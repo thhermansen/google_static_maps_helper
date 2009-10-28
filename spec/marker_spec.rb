@@ -20,11 +20,11 @@ describe GoogleStaticMapsHelper::Marker do
       end
 
       it "should raise NoLngMethod if object doesn't respond to lng" do
-        lambda {GoogleStaticMapsHelper::Marker.new(mock(:location, :lat => 10))}.should raise_error(GoogleStaticMapsHelper::Marker::NoLngMethod)
+        lambda {GoogleStaticMapsHelper::Marker.new(mock(:location, :lat => 10))}.should raise_error(GoogleStaticMapsHelper::Location::NoLngMethod)
       end
 
       it "should raise NoLatMethod if object doesn't respond to lat" do
-        lambda {GoogleStaticMapsHelper::Marker.new(mock(:location, :lng => 20))}.should raise_error(GoogleStaticMapsHelper::Marker::NoLatMethod)
+        lambda {GoogleStaticMapsHelper::Marker.new(mock(:location, :lng => 20))}.should raise_error(GoogleStaticMapsHelper::Location::NoLatMethod)
       end
     end
 
@@ -37,11 +37,11 @@ describe GoogleStaticMapsHelper::Marker do
       end
       
       it "should raise NoLngKey if hash doesn't have key lng" do
-        lambda {GoogleStaticMapsHelper::Marker.new(:lat => 10)}.should raise_error(GoogleStaticMapsHelper::Marker::NoLngKey)
+        lambda {GoogleStaticMapsHelper::Marker.new(:lat => 10)}.should raise_error(GoogleStaticMapsHelper::Location::NoLngKey)
       end
 
       it "should raise NoLatKey if hash doesn't have key lat" do
-        lambda {GoogleStaticMapsHelper::Marker.new(:lng => 20)}.should raise_error(GoogleStaticMapsHelper::Marker::NoLatKey)
+        lambda {GoogleStaticMapsHelper::Marker.new(:lng => 20)}.should raise_error(GoogleStaticMapsHelper::Location::NoLatKey)
       end
     end
 
