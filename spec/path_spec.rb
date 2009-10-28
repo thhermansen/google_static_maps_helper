@@ -58,6 +58,10 @@ describe GoogleStaticMapsHelper::Path do
       @path.length.should == 2
     end
 
+    it "should be able to answer empty?" do
+      @path.should be_empty
+    end
+
     it "should wrap a hash which contains lat and lng into a Location object when pushed" do
       @path << {:lat => 1, :lng => 2}
       @path.first.should be_an_instance_of(GoogleStaticMapsHelper::Location)
@@ -69,6 +73,53 @@ describe GoogleStaticMapsHelper::Path do
 
     it "should make sure points-setter ensures that hash-values are wraped into a Location object" do
       @path.points = []
+    end
+  end
+
+
+  describe "url_params" do
+    before do
+      @path = GoogleStaticMapsHelper::Path.new
+      @point = GoogleStaticMapsHelper::Location.new(:lat => 1, :lng => 2)
+      @point2 = GoogleStaticMapsHelper::Location.new(:lat => 3, :lng => 4)
+      @path << @point << @point2
+    end
+
+    it "should respond to url_params" do
+      @path.should respond_to(:url_params)
+    end
+
+    it "should raise an error if a path doesn't include any points" do
+      @path.points = []
+      lambda {@path.url_params}.should raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+    end
+
+    it "should not raise an error if path have points" do
+      lambda {@path.url_params}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+    end
+
+    it "should begin with path=" do
+      @path.url_params.should match(/^path=/)
+    end
+
+    it "should include points' locations" do
+      @path.url_params.should include('1,2')
+    end
+
+    @@options.each do |attribute, value|
+      it "should not include #{attribute} as default in url" do
+        @path.url_params.should_not include("#{attribute}=")
+      end
+
+      it "should include #{attribute} when set on path" do
+        @path.send("#{attribute}=", value)
+        @path.url_params.should include("#{attribute}:#{value}")
+      end
+    end
+
+    it "should concat path options and point locations correctly together" do
+      @path.weight = 3
+      @path.url_params.should == 'path=weight:3|1,2|3,4'
     end
   end
 end
