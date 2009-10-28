@@ -93,6 +93,29 @@ describe GoogleStaticMapsHelper::Map do
     end
   end
 
+  describe "paths" do
+    before do
+      @path = GoogleStaticMapsHelper::Path.new
+      @point = GoogleStaticMapsHelper::Location.new(:lat => 1, :lng => 2)
+      @point2 = GoogleStaticMapsHelper::Location.new(:lat => 3, :lng => 4)
+      @path << @point << @point2
+
+      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+    end
+    
+    it "should be able to push paths on to map" do
+      @map << @path
+      @map.first.should == @path
+    end
+
+    it "should be able to paths via paths" do
+      @marker = GoogleStaticMapsHelper::Marker.new(:lat => 1, :lng => 2)
+      @map << @path
+      @map << @marker
+      @map.paths.should == [@path]
+    end
+  end
+
 
   describe "size" do
     before do
@@ -324,6 +347,10 @@ describe GoogleStaticMapsHelper::Map do
           @map.url.should include("#{key}=#{value}")
         end
       end
+    end
+
+    describe "paths" do
+      # TODO
     end
   end
   

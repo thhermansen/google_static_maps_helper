@@ -62,6 +62,10 @@ module GoogleStaticMapsHelper
         groups
       end
     end
+
+    def paths
+      @map_enteties.select {|e| e.is_a? Path}
+    end
     
     def <<(entity)
       @map_enteties << entity
