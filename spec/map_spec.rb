@@ -62,6 +62,12 @@ describe GoogleStaticMapsHelper::Map do
       @map << @marker << GoogleStaticMapsHelper::Marker.new(:lat => 3, :lng => 5)
       @map.length.should == 2
     end
+
+    it "should return it's markers via markers" do
+      @map << @marker
+      @map << GoogleStaticMapsHelper::Path.new
+      @map.markers.should == [@marker]
+    end
   end
 
   

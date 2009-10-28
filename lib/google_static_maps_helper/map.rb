@@ -1,6 +1,6 @@
 module GoogleStaticMapsHelper
   # Represents the map we are generating
-  # It holds markers and iterates over them to build the URL
+  # It holds markers and paths and iterates over them to build the URL
   # to be used in an image tag.
   class Map
     include Enumerable
@@ -27,11 +27,11 @@ module GoogleStaticMapsHelper
       validate_options(options)
 
       options.each_pair { |k, v| send("#{k}=", v) }
-      @markers = []
+      @map_enteties = []
     end
 
     def url
-      raise BuildDataMissing, "We have to have markers or center and zoom set when url is called!" unless can_build?
+      raise BuildDataMissing, "We have to have markers, paths or center and zoom set when url is called!" unless can_build?
       
       out = "#{API_URL}?"
 
@@ -52,29 +52,33 @@ module GoogleStaticMapsHelper
       out
     end
 
+    def markers
+      @map_enteties.select {|e| e.is_a? Marker}
+    end
+
     def grouped_markers
-      inject(Hash.new {|hash, key| hash[key] = []}) do |groups, marker|
+      markers.inject(Hash.new {|hash, key| hash[key] = []}) do |groups, marker|
         groups[marker.options_to_url_params] << marker
         groups
       end
     end
     
-    def <<(marker)
-      @markers << marker
-      @markers.uniq!
+    def <<(entity)
+      @map_enteties << entity
+      @map_enteties.uniq!
       self
     end
 
     def each
-      @markers.each {|m| yield(m)}
+      @map_enteties.each {|m| yield(m)}
     end
 
     def empty?
-      @markers.empty?
+      @map_enteties.empty?
     end
 
     def length
-      @markers.length
+      @map_enteties.length
     end
 
     def marker(*args)
@@ -127,7 +131,7 @@ module GoogleStaticMapsHelper
 
     private
     def can_build?
-      !@markers.empty? || (center && zoom)
+      !@map_enteties.empty? || (center && zoom)
     end
 
     def validate_required_options(options)
