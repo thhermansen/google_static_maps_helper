@@ -1,17 +1,26 @@
 module GoogleStaticMapsHelper
-
-  # Represents a location (latitude and longitude)
   #
-  # This class will also hold logic like travel_to(heading, distance) which will make
-  # drawing paths and polygons easier.
+  # Represents a location with lat and lng values.
+  # 
+  # This classed is used internally to back up Markers' location
+  # and Paths' points.
+  #
   class Location
-    class NoLngMethod < NoMethodError; end
-    class NoLatMethod < NoMethodError; end
-    class NoLatKey < ArgumentError; end
-    class NoLngKey < ArgumentError; end
+    class NoLngMethod < NoMethodError; end # Raised if incomming object doesnt respond to lng
+    class NoLatMethod < NoMethodError; end # Raised if incomming object doesnt respond to lat
+    class NoLatKey < ArgumentError; end # Raised if incomming Hash doesnt have key lat
+    class NoLngKey < ArgumentError; end # Raised if incomming Hash doesnt have key lng
 
     attr_accessor :lat, :lng
 
+    # :call-seq:
+    #   new(location_object_or_options, *args)
+    #
+    # Creates a new Location which is used by Marker and Path object
+    # to represent it's locations.
+    #
+    # <tt>:args</tt>: Either a location which responds to lat or lng, or a Hash which has :lat and :lng keys.
+    #
     def initialize(*args)
       raise ArgumentError, "Must have some arguments." if args.length == 0
       
@@ -22,7 +31,10 @@ module GoogleStaticMapsHelper
       end
     end
     
-    def to_url
+    #
+    # Returning the location as a string "lat,lng"
+    #
+    def to_url # :nodoc:
       [lat, lng].join(',')
     end
 
