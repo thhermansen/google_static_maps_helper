@@ -55,7 +55,7 @@ module GoogleStaticMapsHelper
     #
     # Sets the points of this Path.
     # 
-    # *Warning:* Using this method will clear out any points which might be set.
+    # *WARNING* Using this method will clear out any points which might be set.
     #
     def points=(array)
       raise ArgumentError unless array.is_a? Array
