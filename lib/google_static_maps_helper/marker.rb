@@ -1,9 +1,8 @@
 module GoogleStaticMapsHelper
-  # Simple wrapper around an object which should respond to lat and lng.
-  # The wrapper keeps track of additional parameters for the Google map
-  # to be used, like size color and label.
+  #
+  # A marker object is representing a marker with a customizable label, color and size.
+  #
   class Marker
-    # These options are the one we build our parameters from
     DEFAULT_OPTIONS = {
       :color => 'red',
       :size => 'mid',
@@ -12,33 +11,41 @@ module GoogleStaticMapsHelper
 
     attr_accessor :location, *DEFAULT_OPTIONS.keys
 
-    # Initialize a new Marker 
-    # 
-    # Can wither take an object which responds to lng and lat
-    # GoogleStaticMapsHelper::Marker.new(location)
+    # :call-seq:
+    #   new(location_object_or_options, *args)
     #
-    # Or it can take a has which includes lng and lat
-    # GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
+    # Creates a new Marker object. A marker object will, when added to a Map, represent
+    # one marker which you can customize with color, size and label.
     #
-    # You can also send in options like color, size and label in the hash,
-    # or as a secnond parameter if the first was an object.
+    # <tt>:location_object_or_options</tt>::  Either an object which responds to lat and lng or simply a option hash
+    # <tt>:args</tt>::                        A hash of options. Can have keys like <tt>:color</tt>,
+    #                                         <tt>:size</tt>, and <tt>:label</tt>.
+    #                                         See Google's API documentation[http://code.google.com/apis/maps/documentation/staticmaps/#MarkerStyles] for more information.
+    #                                         If a location object hasn't been given you must also include <tt>:lat</tt>
+    #                                         and <tt>:lng</tt> values.
+    #
+    #
+    # Usage:
+    #
+    #   # Sets location via object which responds to lng and lat
+    #   GoogleStaticMapsHelper::Marker.new(location {:label => :a})
+    #   
+    #   # ..or include the lng and lat in the option hash
+    #   GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :label => :a)
+    #
     def initialize(*args)
       raise ArgumentError, "Must have one or two arguments." if args.length == 0
-
-      if args.first.is_a? Hash
-        extract_location_from_hash!(args.first)
-      else
-        extract_location_from_object(args.shift)
-      end
-
+      extract_location!(args)
       options = DEFAULT_OPTIONS.merge(args.shift || {})
       validate_options(options)
       options.each_pair { |k, v| send("#{k}=", v) }
     end
 
-    # Returns a string wich is what Google Static map is using to
-    # set the style on the marker. This ill include color, size and label
-    def options_to_url_params
+    # 
+    # Returns a string representing this marker
+    # Used by the Map when building url.
+    #
+    def options_to_url_params # :nodoc:
       params = DEFAULT_OPTIONS.keys.map(&:to_s).sort.inject([]) do |params, attr|
         value = send(attr)
         params << "#{attr}:#{URI.escape(value)}" unless value.nil?
@@ -48,35 +55,35 @@ module GoogleStaticMapsHelper
       params.join('|')
     end
 
-    # Concatination of lat and lng value, used when building the url
-    def location_to_url
+    # 
+    # Concatenation of lat and lng value. Used when building URLs and returns them in correct order
+    #
+    def location_to_url # :nodoc:
       @location.to_url
     end
     
-    def label
+    def label # :nodoc:
       @label.to_s.upcase if @label
     end
 
-    def color
+    def color # :nodoc:
       @color.downcase if @color
     end
 
 
+    #
+    # Proxies calls to the internal object which keeps track of this marker's location.
+    # So, if @location responds to method missing in this object, it will respond to it.
+    #
     def method_missing(method, *args)
       return @location.send(method, *args) if @location.respond_to? method
       super
     end
 
     private
-    def extract_location_from_hash!(location_hash)
-      to_object = {}
-      to_object[:lat] = location_hash.delete :lat if location_hash.has_key? :lat
-      to_object[:lng] = location_hash.delete :lng if location_hash.has_key? :lng
-      @location = Location.new(to_object)
-    end
-
-    def extract_location_from_object(location)
-      @location = Location.new(location)
+    def extract_location!(args)
+      @location = Location.new(*args)
+      args.shift unless args.first.is_a? Hash
     end
 
     def validate_options(options)
