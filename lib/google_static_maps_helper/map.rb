@@ -1,10 +1,12 @@
 module GoogleStaticMapsHelper
-  # Represents the map we are generating
-  # It holds markers and paths and iterates over them to build the URL
-  # to be used in an image tag.
+  #
+  # The Map keeps track of the state of which we want to build a URL for.
+  # It will hold Markers and Paths, and other states like dimensions of the map,
+  # image format, language etc.
+  #
   class Map
     include Enumerable
-
+    
     MAX_WIDTH = 640
     MAX_HEIGHT = 640
 
@@ -12,15 +14,27 @@ module GoogleStaticMapsHelper
     VALID_MAP_TYPES = %w{roadmap satellite terrain hybrid}
 
     REQUIRED_OPTIONS = [:key, :size, :sensor]
-    OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language, :format, :maptype]
+    OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language]
     
     attr_accessor *(REQUIRED_OPTIONS + OPTIONAL_OPTIONS)
     attr_accessor :width, :height
 
-    # Initialize a new Map object
     #
-    # Takes a hash of options where :key, :size and :sensor are required.
-    # Other options are center, zoom, format, maptype, mobile and language
+    # Creates a new Map object
+    #
+    # <tt>:options</tt>::   The options available are the same as described in
+    #                       Google's API documentation[http://code.google.com/apis/maps/documentation/staticmaps/#Usage].
+    #                       In short, valid options are:
+    #                       <tt>:key</tt>::       Your Google maps API key
+    #                       <tt>:size</tt>::      The size of the map. Can be a "wxh", [w,h] or {:width => x, :height => y}
+    #                       <tt>:sensor</tt>::    Set to true if your application is using a sensor. See the API doc.
+    #                       <tt>:center</tt>::    The center point of your map. Optional if you add markers or path to the map
+    #                       <tt>:zoom</tt>::      The zoom level you want, also optional as center
+    #                       <tt>:format</tt>::    Defaults to png
+    #                       <tt>:maptype</tt>::   Defaults to roadmap
+    #                       <tt>:mobile</tt>::    Returns map tiles better suited for mobile devices with small screens.
+    #                       <tt>:language</tt>::  The language used in the map
+    #
     def initialize(options)
       inject_defaults_from_module_class_attribute!(options)
       validate_required_options(options)
@@ -30,6 +44,9 @@ module GoogleStaticMapsHelper
       @map_enteties = []
     end
 
+    #
+    # Builds up a URL representing the state of this Map object
+    #
     def url
       raise BuildDataMissing, "We have to have markers, paths or center and zoom set when url is called!" unless can_build?
       
@@ -56,10 +73,19 @@ module GoogleStaticMapsHelper
       out
     end
 
+    #
+    # Returns all the markers which this map holds
+    #
     def markers
       @map_enteties.select {|e| e.is_a? Marker}
     end
 
+    #
+    # Returns the markers grouped by it's label, color and size.
+    #
+    # This is handy when building the URL because the API wants us to
+    # group together equal markers and just list the position of the markers thereafter in the URL.
+    #
     def grouped_markers
       markers.inject(Hash.new {|hash, key| hash[key] = []}) do |groups, marker|
         groups[marker.options_to_url_params] << marker
@@ -67,10 +93,16 @@ module GoogleStaticMapsHelper
       end
     end
 
+    # 
+    # Returns all the paths which this map holds
+    #
     def paths
       @map_enteties.select {|e| e.is_a? Path}
     end
     
+    #
+    # Pushes either a Marker or a Path on to the map
+    #
     def <<(entity)
       @map_enteties << entity
       @map_enteties.uniq!
@@ -89,11 +121,20 @@ module GoogleStaticMapsHelper
       @map_enteties.length
     end
 
-    def marker(*args)
+    #
+    # Used internally to make the DSL work. Might be changed at any time
+    # to make a better implementation.
+    #
+    def marker(*args) # :nodoc:
       marker = Marker.new(*args)
       self << marker
     end
     
+    #
+    # Sets the size of the map
+    #
+    # <tt>size</tt>::   Can be a "wxh", [w,h] or {:width => x, :height => y}
+    #
     def size=(size)
       unless size.nil?
         case size
@@ -112,11 +153,19 @@ module GoogleStaticMapsHelper
         self.height = height if height
       end
     end
-
+    
+    #
+    # Returns size as a string, "wxh"
+    #
     def size
       [@width, @height].join('x')
     end
-
+    
+    #
+    # Defines width and height setter methods
+    #
+    # These methods enforces the MAX dimensions of the map
+    #
     [:width, :height].each do |name|
       define_method "#{name}=" do |dimension|
         dimension = dimension.to_i
@@ -126,11 +175,22 @@ module GoogleStaticMapsHelper
       end
     end
 
+
+    #
+    # Sets the format of the map
+    #
+    # <tt>format</tt>:: Can be any values included in VALID_FORMATS.
+    #
     def format=(format)
       @format = format.to_s
       raise UnsupportedFormat unless VALID_FORMATS.include? @format
     end
 
+    #
+    # Sets the map type of the map
+    #
+    # <tt>type</tt>:: Can be any values included in VALID_MAP_TYPES.
+    #
     def maptype=(type)
       @maptype = type.to_s
       raise UnsupportedMaptype unless VALID_MAP_TYPES.include? @maptype
@@ -138,6 +198,9 @@ module GoogleStaticMapsHelper
 
 
     private
+    #
+    # Returns an answer for if we can build the URL or not
+    #
     def can_build?
       !@map_enteties.empty? || (center && zoom)
     end
