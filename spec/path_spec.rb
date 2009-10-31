@@ -19,6 +19,18 @@ describe GoogleStaticMapsHelper::Path do
         path.send(attribute).should == @@options.fetch(attribute)
       end
     end
+
+    describe "points" do
+      before do
+        @point = GoogleStaticMapsHelper::Location.new(:lat => 1, :lng => 2)
+        @point2 = GoogleStaticMapsHelper::Location.new(:lat => 1, :lng => 2)
+      end
+
+      it "should be able to add points via options during initialization" do
+        path = GoogleStaticMapsHelper::Path.new(@@options.merge(:points => [@point, @point2]))
+        path.points.should == [@point, @point2]
+      end
+    end
   end
 
   describe "points" do
