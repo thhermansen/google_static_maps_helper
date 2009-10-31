@@ -49,4 +49,26 @@ describe GoogleStaticMapsHelper::Location do
   it "should return to_url with its lat and lng value" do
     GoogleStaticMapsHelper::Location.new(@location_hash).to_url.should == '10,20'
   end
+
+  describe "reduce and round off lng and lat" do
+    before do
+      @location = GoogleStaticMapsHelper::Location.new(:lng => 0, :lat => 1)
+    end
+    [:lng, :lat].each do |attribute|
+      it "should not round #{attribute} when it is a number with a precision less than 6" do
+        @location.send("#{attribute}=", 12.000014)
+        @location.send(attribute).should == 12.000014
+      end
+
+      it "should round #{attribute} when it is a number with a precision above 6" do
+        @location.send("#{attribute}=", 12.0000051)
+        @location.send(attribute).should == 12.000005
+      end
+
+      it "should round and reduce #{attribute} when it's value is a float which can be represented with a descrete value" do
+        @location.send("#{attribute}=", 12.00000000001)
+        @location.send(attribute).to_s.should == "12"
+      end
+    end
+  end
 end
