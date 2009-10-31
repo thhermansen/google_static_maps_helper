@@ -29,6 +29,17 @@ describe GoogleStaticMapsHelper do
         out.should include('size=600x400')
       end
 
+      it "should be able to add paths" do
+        point = {:lat => 1, :lng => 2}
+        point2 = {:lat => 3, :lng => 4}
+
+        out = GoogleStaticMapsHelper.url_for do
+          path point, point2, :color => :red
+        end
+
+        out.should include('path=color:red|1,2|3,4')
+      end
+
       it "should be possible to use inside a class, using attributes of that class" do
         class TestingClass
           attr_reader :location

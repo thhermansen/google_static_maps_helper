@@ -126,8 +126,14 @@ module GoogleStaticMapsHelper
     # to make a better implementation.
     #
     def marker(*args) # :nodoc:
-      marker = Marker.new(*args)
-      self << marker
+      self << Marker.new(*args)
+    end
+
+    #
+    # Used internally to make the DSL work. Might be changed at any time
+    #
+    def path(*args) # :nodoc:
+      self << Path.new(*args)
     end
     
     #
