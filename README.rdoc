@@ -40,6 +40,7 @@ It is also possible to create paths:
 
 ..and of course you can add paths and markers in the same map.
 
+
 = A bit more "low-level" approach instantiating objects yourself
 
 == Marker
@@ -113,6 +114,25 @@ If you feel like it, you can add points at construction time:
   GoogleStaticMapsHelper::Path.new(:color => :red, :points => [point1, point2])
   # ..or
   GoogleStaticMapsHelper::Path.new(point1, point2, :color => :red)
+
+
+== Locations
+The location class is what we wrap all our lat- and lng values in. Either it is a Marker, or points for a Path. It has a few helper methods which 
+you can use to calculate distance between locations (<tt>distance_to(another_location)</tt>) and use to generate new locations based on 
+distance and heading (<tt>endpoint(distance, heading)</tt>). It also have a helper method called <tt>endpoints_for_circle_with_radius</tt>
+which returns locations that make up a circle around the receiving location. Some examples:
+
+  # Create a marker object, which it's lng and lat are stored under the hood as a location object.
+  # Methods which the marker itself cannot answer, like lat and lng and distance_to is delegated to the location object
+  marker = GoogleStaticMapsHelper::Marker(:lng => 1, :lat => 2)
+
+  map << marker
+
+  # Lets say we want draw a circle around our marker, with a radius of 1 kilometer.
+  path = GoogleStaticMapsHelper::Path.new(:fillcolor => :blue, :points => marker.endpoints_for_circle_with_radius(1000))
+  
+  map << path
+
 
 == TODO
 * Ruby 1.9 support
