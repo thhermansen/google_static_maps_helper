@@ -105,29 +105,37 @@ describe GoogleStaticMapsHelper::Location do
       end
     end
 
-    it "should return endpoints for a circle with given radius, 60 as default" do
-      base = GoogleStaticMapsHelper::Location.new(:lat => 59.832964751405214, :lng => 10.439303436108082)
-      endpoints = base.endpoints_for_circle_with_radius(1000)
-      endpoints.length.should == 60
-    end
+    describe "endpoints_for_circle_with_radius" do
+      it "should 30 + 1 end points for circle as default" do
+        base = GoogleStaticMapsHelper::Location.new(:lat => 59.832964751405214, :lng => 10.439303436108082)
+        endpoints = base.endpoints_for_circle_with_radius(1000)
+        endpoints.length.should == 31
+      end
 
-    it "should reley on endpoint method to calculate new endpoints when creating circle points" do
-      base = GoogleStaticMapsHelper::Location.new(:lat => 59.832964751405214, :lng => 10.439303436108082)
-      base.should_receive(:endpoint).with(1000, 0 * 360 / 4)
-      base.should_receive(:endpoint).with(1000, 1 * 360 / 4)
-      base.should_receive(:endpoint).with(1000, 2 * 360 / 4)
-      base.should_receive(:endpoint).with(1000, 3 * 360 / 4)
-      endpoints = base.endpoints_for_circle_with_radius(1000, 4)
-    end
+      it "should have the same point as start and end (to make a closed circle)" do
+        base = GoogleStaticMapsHelper::Location.new(:lat => 59.832964751405214, :lng => 10.439303436108082)
+        endpoints = base.endpoints_for_circle_with_radius(1000)
+        endpoints.first.should == endpoints.last
+      end
 
-    it "should raise argument error if number of points asked to returned when creating a circle is above 360" do
-      base = GoogleStaticMapsHelper::Location.new(:lat => 59, :lng => 10)
-      lambda {base.endpoints_for_circle_with_radius(1000, 361)}.should raise_error(ArgumentError)
-    end
+      it "should reley on endpoint method to calculate new endpoints when creating circle points" do
+        base = GoogleStaticMapsHelper::Location.new(:lat => 59.832964751405214, :lng => 10.439303436108082)
+        base.should_receive(:endpoint).with(1000, 0 * 360 / 4)
+        base.should_receive(:endpoint).with(1000, 1 * 360 / 4)
+        base.should_receive(:endpoint).with(1000, 2 * 360 / 4)
+        base.should_receive(:endpoint).with(1000, 3 * 360 / 4)
+        endpoints = base.endpoints_for_circle_with_radius(1000, 4)
+      end
 
-    it "should raise argument error if number of points asked to returned when creating a circle is less than 10" do
-      base = GoogleStaticMapsHelper::Location.new(:lat => 59, :lng => 10)
-      lambda {base.endpoints_for_circle_with_radius(1000, 0)}.should raise_error(ArgumentError)
+      it "should raise argument error if number of points asked to returned when creating a circle is above 360" do
+        base = GoogleStaticMapsHelper::Location.new(:lat => 59, :lng => 10)
+        lambda {base.endpoints_for_circle_with_radius(1000, 361)}.should raise_error(ArgumentError)
+      end
+
+      it "should raise argument error if number of points asked to returned when creating a circle is less than 1" do
+        base = GoogleStaticMapsHelper::Location.new(:lat => 59, :lng => 10)
+        lambda {base.endpoints_for_circle_with_radius(1000, 0)}.should raise_error(ArgumentError)
+      end
     end
   end
 end

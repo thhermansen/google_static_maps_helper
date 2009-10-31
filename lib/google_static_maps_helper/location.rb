@@ -77,13 +77,15 @@ module GoogleStaticMapsHelper
     #
     # Returns ends poionts which will make up a circle around current location and have given radius
     #
-    def endpoints_for_circle_with_radius(radius, number_of_points_returned = 60)
-      raise ArgumentError, "Number of points has to be in range of 1..360!" unless (1..360).include? number_of_points_returned
+    def endpoints_for_circle_with_radius(radius, steps = 30)
+      raise ArgumentError, "Number of points has to be in range of 1..360!" unless (1..360).include? steps
 
       points = []
-      number_of_points_returned.times do |i|
-        points << endpoint(radius, i * 360 / number_of_points_returned)
+      steps.times do |i|
+        points << endpoint(radius, i * 360 / steps)
       end
+      points << points.first
+
       points 
     end
 
