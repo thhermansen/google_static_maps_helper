@@ -30,6 +30,15 @@ If you are on Rails you can put it in your environment configuration file and wh
     ...
   end
 
+It is also possible to create paths:
+  point1 = {:lng => 1, :lat => 2}
+  point2 = {:lng => 3, :lat => 4}
+
+  GoogleStaticMapsHelper.url_for do
+    path point1, point2, :color => :red, :weight => 7
+  end
+
+..and of course you can add paths and markers in the same map.
 
 = A bit more "low-level" approach instantiating objects yourself
 

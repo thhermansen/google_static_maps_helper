@@ -1,6 +1,7 @@
 = v.1.3.1 (in git)
 * Wrote better docs for all classes.
 * You can add points to Paths with Path.new(point, second_point, :color => :red, :fillcolor => :blue)
+* The "DSL" supports adding paths to the map.
 
 = v.1.3.0
 * It is now possible to create Paths which is used to represent lines and polygons in the map. This is not included in the little DSL we have though.
