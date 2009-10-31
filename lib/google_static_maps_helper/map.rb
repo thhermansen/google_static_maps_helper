@@ -35,7 +35,7 @@ module GoogleStaticMapsHelper
     #                       <tt>:mobile</tt>::    Returns map tiles better suited for mobile devices with small screens.
     #                       <tt>:language</tt>::  The language used in the map
     #
-    def initialize(options)
+    def initialize(options = {})
       inject_defaults_from_module_class_attribute!(options)
       validate_required_options(options)
       validate_options(options)

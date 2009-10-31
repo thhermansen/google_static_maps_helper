@@ -36,6 +36,11 @@ describe GoogleStaticMapsHelper::Map do
         map.send(key).should == GoogleStaticMapsHelper.send(key)
       end
     end
+
+    it "should be able to call new with no arguments if GoogleStaticMapsHelper class attributes are set" do
+      @@require_options.each_pair {|key, value| GoogleStaticMapsHelper.send("#{key}=", value)}
+      lambda {GoogleStaticMapsHelper::Map.new}.should_not raise_error
+    end
   end
 
   describe "markers" do
