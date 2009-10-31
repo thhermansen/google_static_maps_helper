@@ -30,6 +30,11 @@ describe GoogleStaticMapsHelper::Path do
         path = GoogleStaticMapsHelper::Path.new(@@options.merge(:points => [@point, @point2]))
         path.points.should == [@point, @point2]
       end
+
+      it "should be able to add points before option hash" do
+        path = GoogleStaticMapsHelper::Path.new(@point, @point2, @@options)
+        path.points.should == [@point, @point2]
+      end
     end
   end
 

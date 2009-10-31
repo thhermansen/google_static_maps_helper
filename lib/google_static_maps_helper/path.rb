@@ -25,9 +25,11 @@ module GoogleStaticMapsHelper
     #                       a closed shape.
     # <tt>:points</tt>::    An array of points. You can mix objects responding to lng and lat, and a Hash with lng and lat keys.
     #
-    def initialize(options = {})
+    def initialize(*args)
       @points = []
-      options.each_pair {|k, v| send("#{k}=", v)}
+    
+      extract_options!(args)
+      add_points(args)
     end
 
     #
@@ -104,6 +106,15 @@ module GoogleStaticMapsHelper
     #
     def can_build?
       length > 1
+    end
+
+    def extract_options!(args)
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      options.each_pair {|k, v| send("#{k}=", v)}
+    end
+
+    def add_points(points)
+      points.each {|point| self << point}
     end
   end
 end
