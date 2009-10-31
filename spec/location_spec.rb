@@ -49,4 +49,26 @@ describe GoogleStaticMapsHelper::Location do
   it "should return to_url with its lat and lng value" do
     GoogleStaticMapsHelper::Location.new(@location_hash).to_url.should == '10,20'
   end
+
+
+
+  describe "helper methods" do
+    before do
+      @base = GoogleStaticMapsHelper::Location.new(:lat => 60, :lng => 0)
+    end
+
+    [
+      [{:lat => 60, :lng => 0}, 0],
+      [{:lat => 60, :lng => 1}, 55597],
+      [{:lat => 61, :lng => 0}, 111195],
+      [{:lat => 60, :lng => 0.01}, 556]
+    ].each do |point_distance|
+      it "should calculate correct distance to another location" do
+        another_point, expected_distance = point_distance
+        another_point = GoogleStaticMapsHelper::Location.new(another_point)
+
+        @base.distance_to(another_point).should == expected_distance
+      end
+    end
+  end
 end
