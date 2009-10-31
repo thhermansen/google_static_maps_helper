@@ -33,8 +33,6 @@ module GoogleStaticMapsHelper
     #
     # Provides a simple DSL stripping away the need of manually instantiating classes
     #
-    # *NOTE* Paths are not supported by the DSL yet.
-    #
     # Usage:
     #
     #   # First of all, you might want to set your key etc
@@ -46,6 +44,7 @@ module GoogleStaticMapsHelper
     #   url = GoogleStaticMapsHelper.url_for do
     #     marker :lng => 1, :lat => 2
     #     marker :lng => 3, :lat => 4
+    #     path {:lng => 5, :lat => 6}, {:lng => 7, :lat => 7}
     #   end
     #
     #   # You can send in key, size etc to url_for
