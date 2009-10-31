@@ -100,6 +100,10 @@ color is what will trigger the creation of polygons for the static map API.
   map << path
   map.url
 
+If you feel like it, you can add points at construction time:
+  GoogleStaticMapsHelper::Path.new(:color => :red, :points => [point1, point2])
+  # ..or
+  GoogleStaticMapsHelper::Path.new(point1, point2, :color => :red)
 
 == TODO
 * Ruby 1.9 support
