@@ -53,10 +53,6 @@ describe GoogleStaticMapsHelper::Location do
 
 
   describe "helper methods" do
-    before do
-      @base = GoogleStaticMapsHelper::Location.new(:lat => 60, :lng => 0)
-    end
-
     [
       [{:lat => 60, :lng => 0}, 0],
       [{:lat => 60, :lng => 1}, 55597],
@@ -65,9 +61,26 @@ describe GoogleStaticMapsHelper::Location do
     ].each do |point_distance|
       it "should calculate correct distance to another location" do
         another_point, expected_distance = point_distance
+        base = GoogleStaticMapsHelper::Location.new(:lat => 60, :lng => 0)
         another_point = GoogleStaticMapsHelper::Location.new(another_point)
+        base.distance_to(another_point).should == expected_distance
+      end
+    end
 
-        @base.distance_to(another_point).should == expected_distance
+
+    [
+      [1000, 360, {:lat => 59.841957967464396, :lng => 10.43930343610808}],
+      [1000, 324, {:lat => 59.84023999640559, :lng => 10.428782049078075}],
+      [1000, 114, {:lat => 59.829305867622345, :lng=> 10.455650579695265}],
+      [1000, 18, {:lat => 59.84151769215414, :lng => 10.44483506887988}]
+    ].each do |distance_heading_new_point|
+      it "should calculate new end point with given distance and heading" do
+        distance, heading, excpexted_point = distance_heading_new_point
+        base = GoogleStaticMapsHelper::Location.new(:lat => 59.832964751405214, :lng => 10.439303436108082)
+        new_point = base.endpoint(distance, heading)
+
+        new_point.lat.should == excpexted_point[:lat]
+        new_point.lng.should == excpexted_point[:lng]
       end
     end
   end

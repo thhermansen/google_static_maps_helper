@@ -52,6 +52,28 @@ module GoogleStaticMapsHelper
     end
 
     #
+    # Returns a new <tt>Location</tt> which has given distance and heading from current location
+    #
+    # <tt>distance</tt>::   The distance in meters for the new Location from current
+    # <tt>heading</tt>::    The heading in degrees we should go from current
+    #
+    def endpoint(distance, heading)
+      d = (distance / 1000.0) / EARTH_RADIUS_KM;
+      heading = deg2rad(heading);
+
+      oX = lng * Math::PI / 180;
+      oY = lat * Math::PI / 180;
+
+      y = Math.asin(Math.sin(oY) * Math.cos(d) + Math.cos(oY) * Math.sin(d) * Math.cos(heading));
+      x = oX + Math.atan2(Math.sin(heading) * Math.sin(d) * Math.cos(oY), Math.cos(d) - Math.sin(oY) * Math.sin(y));
+
+      y = y * 180 / Math::PI;
+      x = x * 180 / Math::PI;
+
+      self.class.new(:lat => y, :lng => x)
+    end
+
+    #
     # Returning the location as a string "lat,lng"
     #
     def to_url # :nodoc:
