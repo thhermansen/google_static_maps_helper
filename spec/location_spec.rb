@@ -50,7 +50,28 @@ describe GoogleStaticMapsHelper::Location do
     GoogleStaticMapsHelper::Location.new(@location_hash).to_url.should == '10,20'
   end
 
+  describe "reduce and round off lng and lat" do
+    before do
+      @location = GoogleStaticMapsHelper::Location.new(:lng => 0, :lat => 1)
+    end
 
+    [:lng, :lat].each do |attribute|
+      it "should not round #{attribute} when it is a number with a precision less than 6" do
+        @location.send("#{attribute}=", 12.000014)
+        @location.send(attribute).should == 12.000014
+      end
+
+      it "should round #{attribute} when it is a number with a precision above 6" do
+        @location.send("#{attribute}=", 12.0000051)
+        @location.send(attribute).should == 12.000005
+      end
+
+      it "should round and reduce #{attribute} when it's value is a float which can be represented with a descrete value" do
+        @location.send("#{attribute}=", 12.00000000001)
+        @location.send(attribute).to_s.should == "12"
+      end
+    end
+  end
 
   describe "helper methods" do
     [
@@ -69,10 +90,10 @@ describe GoogleStaticMapsHelper::Location do
 
 
     [
-      [1000, 360, {:lat => 59.841957967464396, :lng => 10.43930343610808}],
-      [1000, 324, {:lat => 59.84023999640559, :lng => 10.428782049078075}],
-      [1000, 114, {:lat => 59.829305867622345, :lng=> 10.455650579695265}],
-      [1000, 18, {:lat => 59.84151769215414, :lng => 10.44483506887988}]
+      [1000, 360, {:lat => 59.841958, :lng => 10.439303}],
+      [1000, 324, {:lat => 59.84024, :lng => 10.428782}],
+      [1000, 114, {:lat => 59.829306, :lng=> 10.45565}],
+      [1000, 18, {:lat => 59.841518, :lng => 10.444835}]
     ].each do |distance_heading_new_point|
       it "should calculate new end point with given distance and heading" do
         distance, heading, excpexted_point = distance_heading_new_point
