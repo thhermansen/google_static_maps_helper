@@ -84,7 +84,7 @@ With the map object made, we are ready to add some markers to it:
   map << marker
   map << another_marker << yet_another_marker << and_one_more_marker
 
-We can now ask the map for it's URL to where we'll get the requested map from. This URL can be used as src attribute on an image tag.
+We can now ask the map for it's URL to where we'll get the map from. This URL can be used as source attribute on an image tag.
   map.url
 
 Another thing you might want to do is to override the center point and zoom level. This is done during map construction
@@ -119,10 +119,10 @@ If you feel like it, you can add points at construction time:
 
 
 == Locations
-The location class is what we wrap all our lat- and lng values in. Either it is a Marker, or points for a Path. It has a few helper methods which 
-you can use to calculate distance between locations (<tt>distance_to(another_location)</tt>) and use to generate new locations based on 
-distance and heading (<tt>endpoint(distance, heading)</tt>). It also have a helper method called <tt>endpoints_for_circle_with_radius</tt>
-which returns locations that make up a circle around the receiving location. Some examples:
+The location class is what we wrap all our lat- and lng values in. Either it is a Marker, or points for a Path; it will store it's lng and lat value
+in a Location object. Location objects have a few helper methods which you can use to calculate distance between 
+locations (<tt>distance_to(another_location)</tt>) and use to generate new locations based on distance and heading from current location (<tt>endpoint(distance, heading)</tt>).
+It also have a helper method called <tt>endpoints_for_circle_with_radius</tt> which returns locations that makes up a circle around the receiving location. Some examples:
 
   # Create a marker object, which it's lng and lat are stored under the hood as a location object.
   # Methods which the marker itself cannot answer, like lat and lng and distance_to is delegated to the location object
