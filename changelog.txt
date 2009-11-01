@@ -1,4 +1,4 @@
-= v.1.3.2 (in git)
+= v.1.3.2
 * Location will now round and reduce numbers so it doesn't get above a precision of 6.
 * Added two helper methods to Location: distance_to(another_location) and endpoint(distance, heading).
 * a_location.endpoints_for_circle_with_radius(radius) returns an array of end points making a circle around location.
