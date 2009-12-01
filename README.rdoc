@@ -137,7 +137,7 @@ It also have a helper method called <tt>endpoints_for_circle_with_radius</tt> wh
 
 
 == TODO
-* Ruby 1.9 support
+* Add support for encoded polylines (http://code.google.com/apis/maps/documentation/staticmaps/#EncodedPolylines).
 
 == Copyright
 
