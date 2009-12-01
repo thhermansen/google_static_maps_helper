@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 module GoogleStaticMapsHelper
   #
   # A marker object is representing a marker with a customizable label, color and size.

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 module GoogleStaticMapsHelper
   #
   # A Path is used to draw things in the map, either lines or Polygons.

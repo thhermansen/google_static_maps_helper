@@ -1,22 +1,23 @@
+# -*- encoding: utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe GoogleStaticMapsHelper::Path do
-  describe "initialize" do
-    @@options = {
-      :weight => 5,
-      :color => "0x0000ff",
-      :fillcolor => "0x110000ff"
-    }
+  options = {
+    :weight => 5,
+    :color => "0x0000ff",
+    :fillcolor => "0x110000ff"
+  }
 
-    @@options.each_key do |attribute|
+  describe "initialize" do
+    options.each_key do |attribute|
       it "should be able to set and retreive #{attribute} via initializer" do
-        GoogleStaticMapsHelper::Path.new(@@options).send(attribute).should == @@options.fetch(attribute)
+        GoogleStaticMapsHelper::Path.new(options).send(attribute).should == options.fetch(attribute)
       end
 
       it "should be able to set and retreive #{attribute} via accessor method" do
         path = GoogleStaticMapsHelper::Path.new
-        path.send("#{attribute}=", @@options.fetch(attribute))
-        path.send(attribute).should == @@options.fetch(attribute)
+        path.send("#{attribute}=", options.fetch(attribute))
+        path.send(attribute).should == options.fetch(attribute)
       end
     end
 
@@ -27,12 +28,12 @@ describe GoogleStaticMapsHelper::Path do
       end
 
       it "should be able to add points via options during initialization" do
-        path = GoogleStaticMapsHelper::Path.new(@@options.merge(:points => [@point, @point2]))
+        path = GoogleStaticMapsHelper::Path.new(options.merge(:points => [@point, @point2]))
         path.points.should == [@point, @point2]
       end
 
       it "should be able to add points before option hash" do
-        path = GoogleStaticMapsHelper::Path.new(@point, @point2, @@options)
+        path = GoogleStaticMapsHelper::Path.new(@point, @point2, options)
         path.points.should == [@point, @point2]
       end
     end
@@ -128,7 +129,7 @@ describe GoogleStaticMapsHelper::Path do
       @path.url_params.should include('1,2')
     end
 
-    @@options.each do |attribute, value|
+    options.each do |attribute, value|
       it "should not include #{attribute} as default in url" do
         @path.url_params.should_not include("#{attribute}=")
       end

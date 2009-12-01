@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 module GoogleStaticMapsHelper
   #
   # The Map keeps track of the state of which we want to build a URL for.

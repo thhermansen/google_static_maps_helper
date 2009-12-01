@@ -1,7 +1,8 @@
+# -*- encoding: utf-8 -*-
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe GoogleStaticMapsHelper::Map do
-  @@require_options = {
+  reguire_options = {
     :size => '600x400',
     :key => 'MY_GOOGLE_KEY',
     :sensor => false
@@ -9,28 +10,28 @@ describe GoogleStaticMapsHelper::Map do
 
   describe "initialize" do
     before do
-      @@require_options.each_key {|k| GoogleStaticMapsHelper.send("#{k}=", nil)}
+      reguire_options.each_key {|k| GoogleStaticMapsHelper.send("#{k}=", nil)}
     end
 
-    @@require_options.each_key do |key|
+    reguire_options.each_key do |key|
       it "should raise OptionMissing if #{key} is not given" do
-        option_with_missing_option = @@require_options.dup
+        option_with_missing_option = reguire_options.dup
         option_with_missing_option.delete(key)
         lambda {GoogleStaticMapsHelper::Map.new(option_with_missing_option)}.should raise_error(GoogleStaticMapsHelper::OptionMissing)
       end
     end
 
     it "should raise OptionNotExist if incomming option doesn't exists" do
-      lambda {GoogleStaticMapsHelper::Map.new(@@require_options.merge(:invalid_option => 'error?'))}.should raise_error(GoogleStaticMapsHelper::OptionNotExist)
+      lambda {GoogleStaticMapsHelper::Map.new(reguire_options.merge(:invalid_option => 'error?'))}.should raise_error(GoogleStaticMapsHelper::OptionNotExist)
     end
 
     it "should be able to read initialized key option from object" do
-      GoogleStaticMapsHelper::Map.new(@@require_options).key.should == @@require_options[:key]
+      GoogleStaticMapsHelper::Map.new(reguire_options).key.should == reguire_options[:key]
     end
     
-    @@require_options.each_key do |key|
+    reguire_options.each_key do |key|
       it "should use #{key} from GoogleStaticMapsHelper class attribute if set" do
-        option_with_missing_option = @@require_options.dup
+        option_with_missing_option = reguire_options.dup
         GoogleStaticMapsHelper.send("#{key}=", option_with_missing_option.delete(key))
         map = GoogleStaticMapsHelper::Map.new(option_with_missing_option)
         map.send(key).should == GoogleStaticMapsHelper.send(key)
@@ -38,7 +39,7 @@ describe GoogleStaticMapsHelper::Map do
     end
 
     it "should be able to call new with no arguments if GoogleStaticMapsHelper class attributes are set" do
-      @@require_options.each_pair {|key, value| GoogleStaticMapsHelper.send("#{key}=", value)}
+      reguire_options.each_pair {|key, value| GoogleStaticMapsHelper.send("#{key}=", value)}
       lambda {GoogleStaticMapsHelper::Map.new}.should_not raise_error
     end
   end
@@ -46,7 +47,7 @@ describe GoogleStaticMapsHelper::Map do
   describe "markers" do
     before :each do
       @marker = GoogleStaticMapsHelper::Marker.new(:lat => 1, :lng => 2)
-      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+      @map = GoogleStaticMapsHelper::Map.new(reguire_options)
     end
 
     it "should be empty as default" do
@@ -105,7 +106,7 @@ describe GoogleStaticMapsHelper::Map do
       @point2 = GoogleStaticMapsHelper::Location.new(:lat => 3, :lng => 4)
       @path << @point << @point2
 
-      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+      @map = GoogleStaticMapsHelper::Map.new(reguire_options)
     end
     
     it "should be able to push paths on to map" do
@@ -124,7 +125,7 @@ describe GoogleStaticMapsHelper::Map do
 
   describe "size" do
     before do
-      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+      @map = GoogleStaticMapsHelper::Map.new(reguire_options)
       @map.size = '300x400'
     end
 
@@ -177,7 +178,7 @@ describe GoogleStaticMapsHelper::Map do
 
   describe "format" do
     before do
-      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+      @map = GoogleStaticMapsHelper::Map.new(reguire_options)
     end
 
     %w{png png8 png32 gif jpg jpg-basedline}.each do |format|
@@ -199,7 +200,7 @@ describe GoogleStaticMapsHelper::Map do
 
   describe "map type" do
     before do
-      @map = GoogleStaticMapsHelper::Map.new(@@require_options)
+      @map = GoogleStaticMapsHelper::Map.new(reguire_options)
     end
 
     %w{roadmap satellite terrain hybrid}.each do |type|
@@ -390,7 +391,7 @@ describe GoogleStaticMapsHelper::Map do
   end
   
   it "should provide a helper method named marker which will create a new marker and add it to the map" do
-    map = GoogleStaticMapsHelper::Map.new(@@require_options)
+    map = GoogleStaticMapsHelper::Map.new(reguire_options)
     map.marker(:lat => 1, :lng => 2)
     map.length.should eql(1)
   end

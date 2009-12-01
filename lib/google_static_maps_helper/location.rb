@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 module GoogleStaticMapsHelper
   #
   # Represents a location with lat and lng values.
