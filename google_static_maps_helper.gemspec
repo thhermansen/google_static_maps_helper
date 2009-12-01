@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{google_static_maps_helper}
-  s.version = "1.3.2"
+  s.version = "1.3.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Thorbj\303\270rn Hermansen"]
-  s.date = %q{2009-11-01}
+  s.date = %q{2009-12-01}
   s.description = %q{This gem provides a simple interface to the Google Static Maps V2 API.}
   s.email = %q{thhermansen@gmail.com}
   s.extra_rdoc_files = [
@@ -43,12 +43,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{This gem provides a simple interface to the Google Static Maps V2 API}
   s.test_files = [
-    "spec/spec_helper.rb",
-     "spec/marker_spec.rb",
-     "spec/google_static_maps_helper_spec.rb",
-     "spec/location_spec.rb",
+    "spec/marker_spec.rb",
      "spec/map_spec.rb",
-     "spec/path_spec.rb"
+     "spec/spec_helper.rb",
+     "spec/location_spec.rb",
+     "spec/path_spec.rb",
+     "spec/google_static_maps_helper_spec.rb"
   ]
 
   if s.respond_to? :specification_version then
