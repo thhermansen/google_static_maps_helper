@@ -357,7 +357,7 @@ describe GoogleStaticMapsHelper::Map do
 
     describe "paths" do
       before do
-        @path = GoogleStaticMapsHelper::Path.new
+        @path = GoogleStaticMapsHelper::Path.new :encode_points => false
         @point = GoogleStaticMapsHelper::Location.new(:lat => 1, :lng => 2)
         @point2 = GoogleStaticMapsHelper::Location.new(:lat => 3, :lng => 4)
         @path << @point << @point2

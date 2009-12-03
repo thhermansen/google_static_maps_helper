@@ -35,7 +35,7 @@ describe GoogleStaticMapsHelper do
         point2 = {:lat => 3, :lng => 4}
 
         out = GoogleStaticMapsHelper.url_for do
-          path point, point2, :color => :red
+          path point, point2, :color => :red, :encode_points => false
         end
 
         out.should include('path=color:red|1,2|3,4')

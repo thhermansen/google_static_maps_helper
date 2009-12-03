@@ -51,9 +51,9 @@ module GoogleStaticMapsHelper
 
       out += "#{path_params}|" unless path_params.empty?
 
-      out += inject([]) do |point_params, point|
-        point_params << point.to_url
-      end.join('|')
+      out += encoded_url_points if encoding_points?
+      out += unencoded_url_points unless encoding_points?
+      out
     end
 
   
@@ -126,6 +126,16 @@ module GoogleStaticMapsHelper
 
     def add_points(points)
       points.each {|point| self << point}
+    end
+
+    def encoded_url_points
+      ''
+    end
+
+    def unencoded_url_points
+      inject([]) do |point_params, point|
+        point_params << point.to_url
+      end.join('|')
     end
   end
 end
