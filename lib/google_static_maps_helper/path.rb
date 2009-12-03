@@ -9,7 +9,7 @@ module GoogleStaticMapsHelper
 
     OPTIONAL_OPTIONS = [:weight, :color, :fillcolor]
 
-    attr_accessor :points, *OPTIONAL_OPTIONS
+    attr_accessor :encode_points, :points, *OPTIONAL_OPTIONS
 
     #
     # Creates a new Path which you can push points on to to make up lines or polygons
@@ -25,9 +25,11 @@ module GoogleStaticMapsHelper
     #                       as described in the <tt>:color</tt>. When used, the static map will automatically create
     #                       a closed shape.
     # <tt>:points</tt>::    An array of points. You can mix objects responding to lng and lat, and a Hash with lng and lat keys.
+    # <tt>:encode_points::  A flag which tells us if we should encode the points in this path or not. Defaults to <tt>true</tt>
     #
     def initialize(*args)
       @points = []
+      @encode_points = true
     
       extract_options!(args)
       add_points(args)
@@ -89,6 +91,14 @@ module GoogleStaticMapsHelper
       @points << ensure_point_is_location_object(point)
       @points.uniq!
       self
+    end
+
+    #
+    # Will answer the question if we are encoding the points or not when
+    # building the image URL.
+    #
+    def encoding_points?
+      return !!@encode_points
     end
 
 

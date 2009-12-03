@@ -21,6 +21,23 @@ describe GoogleStaticMapsHelper::Path do
       end
     end
 
+    describe "encoding points flag" do
+      it "should be able to set to false" do
+        path = GoogleStaticMapsHelper::Path.new(:encode_points => false)
+        path.should_not be_encoding_points
+      end
+
+      it "should be able to set to true" do
+        path = GoogleStaticMapsHelper::Path.new(:encode_points => true)
+        path.should be_encoding_points
+      end
+
+      it "should be true as default" do
+        path = GoogleStaticMapsHelper::Path.new
+        path.should be_encoding_points
+      end
+    end
+
     describe "points" do
       before do
         @point = GoogleStaticMapsHelper::Location.new(:lat => 1, :lng => 2)
@@ -147,6 +164,9 @@ describe GoogleStaticMapsHelper::Path do
 
     it "should concat point locations without any path options" do
       @path.url_params.should == 'path=1,2|3,4'
+    end
+
+    describe "encoded poly lines" do
     end
   end
 end
