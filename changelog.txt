@@ -1,3 +1,7 @@
+= v.1.3.4
+* Paths are now as default encoding it's points with Google's encoding algorithm. Thanks to Joel Rosenberg for providing an easy class to use.
+This will cut the length of the generated URL quite a bit; down to between 1/3 and 1/2 of the old size.
+
 = v.1.3.3
 * We are now supporting ruby 1.9.1.
 

@@ -97,7 +97,10 @@ Another thing you might want to do is to override the center point and zoom leve
 
 
 == Paths and Polygons
-It is also possible to create Paths and Polygons and to use them together with markers. To create a Path you need two Points and a Path object:
+It is also possible to create Paths and Polygons and to use them together with markers.
+Paths and Polygons will by default encode it's points with Google's encoding algorithm.
+
+To create a Path you need two Points and a Path object:
   path = GoogleStaticMapsHelper::Path.new
   start_point = {:lat => 1, :lng => 2} # You can also use any object which responds to lat and lng here
   end_point = {:lat => 1, :lng => 2}
@@ -135,9 +138,6 @@ It also have a helper method called <tt>endpoints_for_circle_with_radius</tt> wh
   
   map << path
 
-
-== TODO
-* Add support for encoded polylines (http://code.google.com/apis/maps/documentation/staticmaps/#EncodedPolylines).
 
 == Copyright
 

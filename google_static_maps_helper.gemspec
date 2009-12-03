@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{google_static_maps_helper}
-  s.version = "1.3.3"
+  s.version = "1.3.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Thorbj\303\270rn Hermansen"]
-  s.date = %q{2009-12-01}
+  s.authors = ["Thorbjørn Hermansen"]
+  s.date = %q{2009-12-03}
   s.description = %q{This gem provides a simple interface to the Google Static Maps V2 API.}
   s.email = %q{thhermansen@gmail.com}
   s.extra_rdoc_files = [
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
      "changelog.txt",
      "google_static_maps_helper.gemspec",
      "lib/google_static_maps_helper.rb",
+     "lib/google_static_maps_helper/gmap_polyline_encoder.rb",
      "lib/google_static_maps_helper/location.rb",
      "lib/google_static_maps_helper/map.rb",
      "lib/google_static_maps_helper/marker.rb",
