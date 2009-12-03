@@ -167,6 +167,17 @@ describe GoogleStaticMapsHelper::Path do
     end
 
     describe "encoded poly lines" do
+      before do
+        @path.encode_points = true
+      end
+
+      it "should include 'enc:'" do
+        @path.url_params.should include('enc:')
+      end
+
+      it "should include encoded version of lng and lat" do
+        @path.url_params.should include('_ibE_seK_seK_seK')
+      end
     end
   end
 end

@@ -129,7 +129,11 @@ module GoogleStaticMapsHelper
     end
 
     def encoded_url_points
-      ''
+      encoder = GMapPolylineEncoder.new
+      points_as_array = points.map { |location| [location.lat, location.lng]}
+      result = encoder.encode(points_as_array)
+
+      "enc:#{result[:points]}"
     end
 
     def unencoded_url_points

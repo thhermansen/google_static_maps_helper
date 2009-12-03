@@ -4,6 +4,7 @@ require File.dirname(__FILE__) + '/google_static_maps_helper/map'
 require File.dirname(__FILE__) + '/google_static_maps_helper/location'
 require File.dirname(__FILE__) + '/google_static_maps_helper/marker'
 require File.dirname(__FILE__) + '/google_static_maps_helper/path'
+require File.dirname(__FILE__) + '/google_static_maps_helper/gmap_polyline_encoder'
 
 # 
 # The Google Static Map Helper provides a simple interface to the
