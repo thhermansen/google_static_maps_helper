@@ -80,6 +80,10 @@ module GoogleStaticMapsHelper
       length == 0
     end
 
+    def clear
+      @points = []
+    end
+
     #
     # Pushes a new point into the Path
     #

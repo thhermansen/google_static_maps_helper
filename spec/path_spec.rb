@@ -67,6 +67,12 @@ describe GoogleStaticMapsHelper::Path do
       @path.points.should == []
     end
 
+    it "should be possible to clear points" do
+      @path << @point << @point2
+      @path.clear
+      @path.length.should == 0
+    end
+
     it "should be able to push points on to a path" do
       @path << @point
       @path.points.length.should == 1
