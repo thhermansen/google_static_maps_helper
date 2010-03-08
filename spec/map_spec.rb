@@ -232,6 +232,9 @@ describe GoogleStaticMapsHelper::Map do
 
       @marker2  = GoogleStaticMapsHelper::Marker.new(:lng => 5, :lat => 6, :color => 'green')
       @marker22 = GoogleStaticMapsHelper::Marker.new(:lng => 7, :lat => 8, :color => 'green')
+
+      @marker3 = GoogleStaticMapsHelper::Marker.new(:lng => 9, :lat => 10, :icon => 'http://image.com/')
+      @marker33 = GoogleStaticMapsHelper::Marker.new(:lng => 11, :lat => 12, :icon => 'http://image.com/')
     end
 
     describe "valid state to run URL" do
@@ -316,6 +319,7 @@ describe GoogleStaticMapsHelper::Map do
       before :each do
         @map << @marker1
         @map << @marker2
+        @map << @marker3
       end
       
       [
@@ -323,9 +327,9 @@ describe GoogleStaticMapsHelper::Map do
         ['sensor', 'false'],
         ['size', '400x600'],
         ['markers', 'color:green|size:mid|6,5'],
-        ['markers', 'color:red|size:mid|2,1']
-      ].each do |pair|
-        key, value = pair
+        ['markers', 'color:red|size:mid|2,1'],
+        ['markers', 'icon:http://image.com/|10,9']
+      ].each do |(key, value)|
         it "should have key: #{key} and value: #{value}" do
           @map.url.should include("#{key}=#{value}")
         end
@@ -339,6 +343,8 @@ describe GoogleStaticMapsHelper::Map do
         @map << @marker11
         @map << @marker2
         @map << @marker22
+        @map << @marker3
+        @map << @marker33
       end
 
       [
@@ -346,9 +352,9 @@ describe GoogleStaticMapsHelper::Map do
         ['sensor', 'true'],
         ['size', '400x600'],
         ['markers', 'color:green|size:mid|6,5|8,7'],
-        ['markers', 'color:red|size:mid|2,1|4,3']
-      ].each do |pair|
-        key, value = pair
+        ['markers', 'color:red|size:mid|2,1|4,3'],
+        ['markers', 'icon:http://image.com/|10,9|12,11']
+      ].each do |(key, value)|
         it "should have key: #{key} and value: #{value}" do
           @map.url.should include("#{key}=#{value}")
         end
