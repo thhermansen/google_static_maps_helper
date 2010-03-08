@@ -166,6 +166,11 @@ describe GoogleStaticMapsHelper::Marker do
         @marker.options_to_url_params.should include('icon:http://www.icon.com/')
       end
 
+      it "should URL encode the URL" do
+        @marker.icon = 'http://www.icon.com/foo bar/'
+        @marker.options_to_url_params.should include('icon:http://www.icon.com/foo%20bar/')
+      end
+
       it "should contain the shadow param" do
         @marker.options_to_url_params.should include('shadow:false')
       end
