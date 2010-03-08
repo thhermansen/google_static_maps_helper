@@ -120,6 +120,14 @@ describe GoogleStaticMapsHelper::Marker do
     GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:color => 'Green')).color.should == 'green'
   end
 
+  it "should answer false when asked if it has an icon when it doesn't" do
+    GoogleStaticMapsHelper::Marker.new(@location_hash).should_not have_icon
+  end
+
+  it "should answer true when asked if it has an icon when it does" do
+    GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:icon => 'http://icon.com/')).should have_icon
+  end
+
 
   describe "generating url parameters" do
     before :each do
@@ -146,6 +154,27 @@ describe GoogleStaticMapsHelper::Marker do
 
     it "should build location_to_url" do
       @marker.location_to_url.should == '1,2'
+    end
+
+    describe "icon and shadow" do
+      before do
+        @marker.icon = 'http://www.icon.com/'
+        @marker.shadow = false
+      end
+
+      it "should contain the icon param" do
+        @marker.options_to_url_params.should include('icon:http://www.icon.com/')
+      end
+
+      it "should contain the shadow param" do
+        @marker.options_to_url_params.should include('shadow:false')
+      end
+
+      [:color, :label, :size].each do |property|
+        it "should not contain #{property} when icon is set" do
+          @marker.options_to_url_params.should_not include(property.to_s)
+        end
+      end
     end
   end
 end

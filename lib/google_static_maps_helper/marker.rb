@@ -50,8 +50,11 @@ module GoogleStaticMapsHelper
     #
     def options_to_url_params # :nodoc:
       params = DEFAULT_OPTIONS.keys.map(&:to_s).sort.inject([]) do |params, attr|
-        value = send(attr)
-        params << "#{attr}:#{URI.escape(value)}" unless value.nil?
+        primary_getter = "#{attr}_to_be_used_in_param"
+        secondary_getter = attr
+
+        value = send(primary_getter) rescue send(secondary_getter)
+        params << "#{attr}:#{URI.escape(value.to_s)}" unless value.nil?
         params
       end
 
@@ -73,6 +76,10 @@ module GoogleStaticMapsHelper
       @color.downcase if @color
     end
 
+    def has_icon?
+      !!@icon
+    end
+
 
     #
     # Proxies calls to the internal object which keeps track of this marker's location.
@@ -92,6 +99,14 @@ module GoogleStaticMapsHelper
     def validate_options(options)
       invalid_options = options.keys - DEFAULT_OPTIONS.keys
       raise OptionNotExist, "The following options does not exist: #{invalid_options.join(', ')}" unless invalid_options.empty?
+    end
+
+    # Some attributes should be nil when a marker has icon
+    [:color, :label, :size].each do |getter|
+      define_method "#{getter}_to_be_used_in_param" do
+        return nil if has_icon? 
+        send(getter)
+      end
     end
   end
 end
