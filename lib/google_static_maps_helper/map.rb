@@ -202,6 +202,26 @@ module GoogleStaticMapsHelper
       raise UnsupportedMaptype unless VALID_MAP_TYPES.include? @maptype
     end
 
+    #
+    # Google static maps does no longer use key when a map is requested,
+    # thus this is deprecated.
+    #
+    def key=(key)# :nodoc:
+      warn "[DEPRECATION] 'key' is deprecated. Key is no longer used when require a static map. Key will be removed from this gem soon!"
+      @key = key
+    end
+
+    #
+    # Just a setter method for key which sets it without warning
+    # to be called from rspec so all tests still passes without
+    # warnings.
+    #
+    # It's just a couple of places we still test that key is working
+    # as it should.
+    #
+    def key_without_warning=(key)# :nodoc:
+      @key = key
+    end
 
     private
     #

@@ -64,5 +64,11 @@ module GoogleStaticMapsHelper
       block.arity < 1 ? map.instance_eval(&block) : block.call(map)
       map.url
     end
+
+
+    def key=(key)# :nodoc:
+      warn "[DEPRECATION] 'key' is deprecated. Key is no longer used when require a static map. Key will be removed from this gem soon!"
+      @key = key
+    end
   end
 end

@@ -83,7 +83,7 @@ describe GoogleStaticMapsHelper::Map do
 
       @marker2  = GoogleStaticMapsHelper::Marker.new(:lng => 5, :lat => 6, :color => 'green')
       @marker22 = GoogleStaticMapsHelper::Marker.new(:lng => 7, :lat => 8, :color => 'green')
-      @map = GoogleStaticMapsHelper::Map.new(:key => @key, :size => @size, :sensor => @sensor)
+      @map = GoogleStaticMapsHelper::Map.new(:size => @size, :sensor => @sensor)
     end
 
     it "should return options_to_url_params as key, array with markers as value" do
@@ -221,10 +221,10 @@ describe GoogleStaticMapsHelper::Map do
 
   describe "URL" do
     before :each do
-      @key = 'MY_GOOGLE_KEY'
+      @key = 
       @size = '400x600'
       @sensor = false
-      @map = GoogleStaticMapsHelper::Map.new(:key => @key, :size => @size, :sensor => @sensor)
+      @map = GoogleStaticMapsHelper::Map.new(:size => @size, :sensor => @sensor)
       
       @marker1  = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
       @marker11 = GoogleStaticMapsHelper::Marker.new(:lng => 3, :lat => 4)
@@ -264,11 +264,12 @@ describe GoogleStaticMapsHelper::Map do
       end
 
       it "should include the key" do
-        @map.url.should include("key=#{@key}")
+        @map.key_without_warning = 'MY_GOOGLE_KEY'
+        @map.url.should include("key=MY_GOOGLE_KEY")
       end
 
       it "should not include key if it's nil" do
-        @map.key = nil
+        @map.key_without_warning = nil
         @map.url.should_not include("key=")
       end
       
@@ -327,7 +328,6 @@ describe GoogleStaticMapsHelper::Map do
       end
       
       [
-        ['key', 'MY_GOOGLE_KEY'],
         ['sensor', 'false'],
         ['size', '400x600'],
         ['markers', 'color:green|size:mid|6,5'],
@@ -352,7 +352,6 @@ describe GoogleStaticMapsHelper::Map do
       end
 
       [
-        ['key', 'MY_GOOGLE_KEY'],
         ['sensor', 'true'],
         ['size', '400x600'],
         ['markers', 'color:green|size:mid|6,5|8,7'],
@@ -385,7 +384,6 @@ describe GoogleStaticMapsHelper::Map do
       end
 
       [
-        ['key', 'MY_GOOGLE_KEY'],
         ['sensor', 'false'],
         ['size', '400x600'],
         ['path', 'weight:5|1,2|3,4'],

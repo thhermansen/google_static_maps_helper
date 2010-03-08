@@ -5,7 +5,6 @@ describe GoogleStaticMapsHelper do
   describe "Friendly DSL API" do
     describe "url_for" do
       before do
-        GoogleStaticMapsHelper.key = 'my_key'
         GoogleStaticMapsHelper.size = '300x500'
         GoogleStaticMapsHelper.sensor = false
       end
