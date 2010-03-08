@@ -52,11 +52,12 @@ You uild a marker by simply sending in an object which responds to lng and lat, 
   marker = GoogleStaticMapsHelper::Marker.new(location)
   marker = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
 
-Google's static maps supports some options on markers. You can change the color, the label and the size.
+Google's static maps supports some options on markers. You can change the color, the label and the size or you can send in your own icon.
 (http://code.google.com/apis/maps/documentation/staticmaps/#MarkerStyles). You send in options as a second
 parameter to the new method if you gave a location object, or include it in the hash where lng and lat is.
   marker = GoogleStaticMapsHelper::Marker.new(location, :color => 'blue')
   marker = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :color => 'blue')
+  marker = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :icon => 'http://www.domain.com/icon.png')
 
 
 == Map
