@@ -14,13 +14,12 @@ This gem provides a simple interface to the Google Static Maps V2 API (http://co
     marker :lng => 3, :lat => 4
   end
 
-This will return the URL for a map with these markers. Please note that if you do use this approach you have to set key, size and sensor setting.
+This will return the URL for a map with these markers. Please note that if you do use this approach you have to set size and sensor setting.
 You do this by:
-  GoogleStaticMapsHelper.key = 'your google key'
   GoogleStaticMapsHelper.size = '300x600'
   GoogleStaticMapsHelper.sensor = false
 
-If you are on Rails (2.x) you can put it in your environment configuration file and while you are there you can add the following line inside the configuration block:
+If you are on Rails (2.3.x) you can put it in your environment configuration file and while you are there you can add the following line inside the configuration block:
   Rails::Initializer.run do |config|
     config.gem 'google_static_maps_helper'
     ...
@@ -61,16 +60,15 @@ parameter to the new method if you gave a location object, or include it in the 
 
 
 == Map
-A Map holds many markers, paths, pluss some additional options like the size of the static map, Google key, what zoom level and center point it should be fixed to
+A Map holds many markers, paths, pluss some additional options like the size of the static map, what zoom level and center point it should be fixed to
 etc. If no zoom or center point is give it will calculate the map view based on the markers or paths. You can leave markers and paths out, but then you have to supply
 zoom and center. More info can be found here: http://code.google.com/apis/maps/documentation/staticmaps/#URL_Parameters.
 
 === How to build a map?
-When building a map object you have to supply key, sensor and size. Other options are optional.
-  map = GoogleStaticMapsHelper::Map.new(:key => YOUR_GOOGLE_KEY, :sensor => false, :size => '200x300')
+When building a map object you have to supply sensor and size. Other options are optional.
+  map = GoogleStaticMapsHelper::Map.new(:sensor => false, :size => '200x300')
 
 Or, if you have set default options on GoogleStaticMapsHelper, you can skip the required keys when creating a map
-  GoogleStaticMapsHelper.key = 'your google key'
   GoogleStaticMapsHelper.size = '300x600'
   GoogleStaticMapsHelper.sensor = false
   map = GoogleStaticMapsHelper::Map.new
@@ -85,8 +83,7 @@ We can now ask the map for it's URL to where we'll get the map from. This URL ca
   map.url
 
 Another thing you might want to do is to override the center point and zoom level. This is done during map construction
-  map = GoogleStaticMapsHelper::Map.new(:key => YOUR_GOOGLE_KEY,
-                                        :sensor => false,
+  map = GoogleStaticMapsHelper::Map.new(:sensor => false,
                                         :size => '200x300',
                                         :center => '1,2',
                                         :zoom => 4)

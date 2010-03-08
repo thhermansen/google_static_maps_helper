@@ -14,8 +14,8 @@ module GoogleStaticMapsHelper
     VALID_FORMATS = %w{png png8 png32 gif jpg jpg-basedline}
     VALID_MAP_TYPES = %w{roadmap satellite terrain hybrid}
 
-    REQUIRED_OPTIONS = [:key, :size, :sensor]
-    OPTIONAL_OPTIONS = [:center, :zoom, :format, :maptype, :mobile, :language]
+    REQUIRED_OPTIONS = [:size, :sensor]
+    OPTIONAL_OPTIONS = [:key, :center, :zoom, :format, :maptype, :mobile, :language]
     
     attr_accessor *(REQUIRED_OPTIONS + OPTIONAL_OPTIONS)
     attr_accessor :width, :height
@@ -26,7 +26,6 @@ module GoogleStaticMapsHelper
     # <tt>:options</tt>::   The options available are the same as described in
     #                       Google's API documentation[http://code.google.com/apis/maps/documentation/staticmaps/#Usage].
     #                       In short, valid options are:
-    #                       <tt>:key</tt>::       Your Google maps API key
     #                       <tt>:size</tt>::      The size of the map. Can be a "wxh", [w,h] or {:width => x, :height => y}
     #                       <tt>:sensor</tt>::    Set to true if your application is using a sensor. See the API doc.
     #                       <tt>:center</tt>::    The center point of your map. Optional if you add markers or path to the map

@@ -4,7 +4,6 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe GoogleStaticMapsHelper::Map do
   reguire_options = {
     :size => '600x400',
-    :key => 'MY_GOOGLE_KEY',
     :sensor => false
   }
 
@@ -266,6 +265,11 @@ describe GoogleStaticMapsHelper::Map do
 
       it "should include the key" do
         @map.url.should include("key=#{@key}")
+      end
+
+      it "should not include key if it's nil" do
+        @map.key = nil
+        @map.url.should_not include("key=")
       end
       
       it "should include the size" do
