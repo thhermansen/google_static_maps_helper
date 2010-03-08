@@ -49,24 +49,39 @@ describe GoogleStaticMapsHelper::Marker do
 
     describe "options" do
       describe "defaults" do
+        before do
+          @marker = GoogleStaticMapsHelper::Marker.new(@location_object)
+        end
+
         it "should have a predefined color which location should use" do
-          marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.color.should == 'red'
+          @marker.color.should == 'red'
         end
 
         it "should have a predefined size" do
-          marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.size.should == 'mid'
+          @marker.size.should == 'mid'
         end
 
         it "should have a predefined label which should be nil" do
-          marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.label.should be_nil
+          @marker.label.should be_nil
+        end
+
+        it "should have an icon predefined to nil" do
+          @marker.icon.should be_nil
+        end
+
+        it "should have an shadow predefined to nil" do
+          @marker.shadow.should be_nil
         end
       end
 
       describe "override options as second parameters, location given as object as first param" do
-        {:color => 'blue', :size => 'small', :label => 'A'}.each_pair do |key, value|
+        { 
+          :color => 'blue',
+          :size => 'small',
+          :label => 'A',
+          :icon => 'http://www.url.to/img.png',
+          :shadow => 'true'
+        }.each_pair do |key, value|
           it "should be possible to override #{key} to #{value}" do
             marker = GoogleStaticMapsHelper::Marker.new(@location_object, {key => value})
             marker.send(key).should == value
@@ -75,7 +90,13 @@ describe GoogleStaticMapsHelper::Marker do
       end
 
       describe "override options as first parameter, location mixed into the same hash" do
-        {:color => 'blue', :size => 'small', :label => 'A'}.each_pair do |key, value|
+        { 
+          :color => 'blue',
+          :size => 'small',
+          :label => 'A',
+          :icon => 'http://www.url.to/img.png',
+          :shadow => 'true'
+        }.each_pair do |key, value|
           it "should be possible to override #{key} to #{value}" do
             marker = GoogleStaticMapsHelper::Marker.new(@location_hash.merge({key => value}))
             marker.send(key).should == value

@@ -7,7 +7,9 @@ module GoogleStaticMapsHelper
     DEFAULT_OPTIONS = {
       :color => 'red',
       :size => 'mid',
-      :label => nil
+      :label => nil,
+      :icon => nil,
+      :shadow => nil
     }
 
     attr_accessor :location, *DEFAULT_OPTIONS.keys
