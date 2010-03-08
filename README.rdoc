@@ -4,10 +4,6 @@ This gem provides a simple interface to the Google Static Maps V2 API (http://co
 
 
 = Installation
-If you haven't already, add gemcutter as a gem source
-  [sudo] gem sources --add http://gemcutter.org
-
-Then install this gem
   [sudo] gem install google_static_maps_helper
 
 
@@ -24,9 +20,9 @@ You do this by:
   GoogleStaticMapsHelper.size = '300x600'
   GoogleStaticMapsHelper.sensor = false
 
-If you are on Rails you can put it in your environment configuration file and while you are there you can add the following line inside the configuration block:
+If you are on Rails (2.x) you can put it in your environment configuration file and while you are there you can add the following line inside the configuration block:
   Rails::Initializer.run do |config|
-    config.gem 'google_static_maps_helper', :source => 'http://gemcutter.org'
+    config.gem 'google_static_maps_helper'
     ...
   end
 
