@@ -49,24 +49,39 @@ describe GoogleStaticMapsHelper::Marker do
 
     describe "options" do
       describe "defaults" do
+        before do
+          @marker = GoogleStaticMapsHelper::Marker.new(@location_object)
+        end
+
         it "should have a predefined color which location should use" do
-          marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.color.should == 'red'
+          @marker.color.should == 'red'
         end
 
         it "should have a predefined size" do
-          marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.size.should == 'mid'
+          @marker.size.should == 'mid'
         end
 
         it "should have a predefined label which should be nil" do
-          marker = GoogleStaticMapsHelper::Marker.new(@location_object)
-          marker.label.should be_nil
+          @marker.label.should be_nil
+        end
+
+        it "should have an icon predefined to nil" do
+          @marker.icon.should be_nil
+        end
+
+        it "should have an shadow predefined to nil" do
+          @marker.shadow.should be_nil
         end
       end
 
       describe "override options as second parameters, location given as object as first param" do
-        {:color => 'blue', :size => 'small', :label => 'A'}.each_pair do |key, value|
+        { 
+          :color => 'blue',
+          :size => 'small',
+          :label => 'A',
+          :icon => 'http://www.url.to/img.png',
+          :shadow => 'true'
+        }.each_pair do |key, value|
           it "should be possible to override #{key} to #{value}" do
             marker = GoogleStaticMapsHelper::Marker.new(@location_object, {key => value})
             marker.send(key).should == value
@@ -75,7 +90,13 @@ describe GoogleStaticMapsHelper::Marker do
       end
 
       describe "override options as first parameter, location mixed into the same hash" do
-        {:color => 'blue', :size => 'small', :label => 'A'}.each_pair do |key, value|
+        { 
+          :color => 'blue',
+          :size => 'small',
+          :label => 'A',
+          :icon => 'http://www.url.to/img.png',
+          :shadow => 'true'
+        }.each_pair do |key, value|
           it "should be possible to override #{key} to #{value}" do
             marker = GoogleStaticMapsHelper::Marker.new(@location_hash.merge({key => value}))
             marker.send(key).should == value
@@ -97,6 +118,14 @@ describe GoogleStaticMapsHelper::Marker do
 
   it "should downcase the color" do
     GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:color => 'Green')).color.should == 'green'
+  end
+
+  it "should answer false when asked if it has an icon when it doesn't" do
+    GoogleStaticMapsHelper::Marker.new(@location_hash).should_not have_icon
+  end
+
+  it "should answer true when asked if it has an icon when it does" do
+    GoogleStaticMapsHelper::Marker.new(@location_hash.merge(:icon => 'http://icon.com/')).should have_icon
   end
 
 
@@ -125,6 +154,38 @@ describe GoogleStaticMapsHelper::Marker do
 
     it "should build location_to_url" do
       @marker.location_to_url.should == '1,2'
+    end
+
+    describe "icon and shadow" do
+      before do
+        @marker.icon = 'http://www.icon.com/'
+        @marker.shadow = false
+      end
+
+      it "should contain the icon param" do
+        @marker.options_to_url_params.should include('icon:http://www.icon.com/')
+      end
+
+      it "should URL encode the URL" do
+        @marker.icon = 'http://www.icon.com/foo bar/'
+        @marker.options_to_url_params.should include('icon:http://www.icon.com/foo%20bar/')
+      end
+
+      it "should contain the shadow param" do
+        @marker.options_to_url_params.should include('shadow:false')
+      end
+
+      [:color, :label, :size].each do |property|
+        it "should not contain #{property} when icon is set" do
+          @marker.options_to_url_params.should_not include(property.to_s)
+        end
+      end
+
+      it "should not include shadow if it hasn't an icon" do
+        @marker.shadow = true
+        @marker.icon = nil
+        @marker.options_to_url_params.should_not include('shadow:true')
+      end
     end
   end
 end
