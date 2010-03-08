@@ -108,5 +108,10 @@ module GoogleStaticMapsHelper
         send(getter)
       end
     end
+
+    def shadow_to_be_used_in_param
+      return nil unless has_icon? 
+      shadow
+    end
   end
 end

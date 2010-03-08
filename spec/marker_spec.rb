@@ -175,6 +175,12 @@ describe GoogleStaticMapsHelper::Marker do
           @marker.options_to_url_params.should_not include(property.to_s)
         end
       end
+
+      it "should not include shadow if it hasn't an icon" do
+        @marker.shadow = true
+        @marker.icon = nil
+        @marker.options_to_url_params.should_not include('shadow:true')
+      end
     end
   end
 end
