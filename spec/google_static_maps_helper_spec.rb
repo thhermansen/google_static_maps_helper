@@ -10,7 +10,7 @@ describe GoogleStaticMapsHelper do
       end
 
       it "should have a responding method" do
-        GoogleStaticMapsHelper.respond_to?(:url_for).should be_true
+        expect(GoogleStaticMapsHelper.respond_to?(:url_for)).to be(true)
       end
 
       it "should be possible to add markers to map through a b block" do
@@ -45,7 +45,7 @@ describe GoogleStaticMapsHelper do
           attr_reader :location
 
           def initialize
-            @location = {:lat => 1, :lng => 5} 
+            @location = {:lat => 1, :lng => 5}
           end
 
           def url

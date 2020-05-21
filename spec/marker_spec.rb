@@ -4,9 +4,9 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 describe GoogleStaticMapsHelper::Marker do
   before :each do
     @location_hash = {:lat => 10, :lng => 20}
-    @location_object = mock(:location, @location_hash)
+    @location_object = double(:location, @location_hash)
   end
-  
+
   describe "initialize" do
     it "should raise ArgumentError if no arguments are given" do
       lambda {GoogleStaticMapsHelper::Marker.new}.should raise_error(ArgumentError)
@@ -21,11 +21,11 @@ describe GoogleStaticMapsHelper::Marker do
       end
 
       it "should raise NoLngMethod if object doesn't respond to lng" do
-        lambda {GoogleStaticMapsHelper::Marker.new(mock(:location, :lat => 10))}.should raise_error(GoogleStaticMapsHelper::Location::NoLngMethod)
+        lambda {GoogleStaticMapsHelper::Marker.new(double(:location, :lat => 10))}.should raise_error(GoogleStaticMapsHelper::Location::NoLngMethod)
       end
 
       it "should raise NoLatMethod if object doesn't respond to lat" do
-        lambda {GoogleStaticMapsHelper::Marker.new(mock(:location, :lng => 20))}.should raise_error(GoogleStaticMapsHelper::Location::NoLatMethod)
+        lambda {GoogleStaticMapsHelper::Marker.new(double(:location, :lng => 20))}.should raise_error(GoogleStaticMapsHelper::Location::NoLatMethod)
       end
     end
 
@@ -36,7 +36,7 @@ describe GoogleStaticMapsHelper::Marker do
           marker.send(location_property).should == @location_object.send(location_property)
         end
       end
-      
+
       it "should raise NoLngKey if hash doesn't have key lng" do
         lambda {GoogleStaticMapsHelper::Marker.new(:lat => 10)}.should raise_error(GoogleStaticMapsHelper::Location::NoLngKey)
       end
@@ -75,7 +75,7 @@ describe GoogleStaticMapsHelper::Marker do
       end
 
       describe "override options as second parameters, location given as object as first param" do
-        { 
+        {
           :color => 'blue',
           :size => 'small',
           :label => 'A',
@@ -90,7 +90,7 @@ describe GoogleStaticMapsHelper::Marker do
       end
 
       describe "override options as first parameter, location mixed into the same hash" do
-        { 
+        {
           :color => 'blue',
           :size => 'small',
           :label => 'A',
@@ -109,7 +109,7 @@ describe GoogleStaticMapsHelper::Marker do
       lambda {GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :invalid_option => 'error?')}.should raise_error(GoogleStaticMapsHelper::OptionNotExist)
     end
   end
-  
+
 
 
   it "should upcase the label" do
