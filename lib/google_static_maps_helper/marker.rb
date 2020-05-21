@@ -32,7 +32,7 @@ module GoogleStaticMapsHelper
     #
     #   # Sets location via object which responds to lng and lat
     #   GoogleStaticMapsHelper::Marker.new(location {:label => :a})
-    #   
+    #
     #   # ..or include the lng and lat in the option hash
     #   GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2, :label => :a)
     #
@@ -44,7 +44,7 @@ module GoogleStaticMapsHelper
       options.each_pair { |k, v| send("#{k}=", v) }
     end
 
-    # 
+    #
     # Returns a string representing this marker
     # Used by the Map when building url.
     #
@@ -54,20 +54,20 @@ module GoogleStaticMapsHelper
         secondary_getter = attr
 
         value = send(primary_getter) rescue send(secondary_getter)
-        params << "#{attr}:#{URI.escape(value.to_s)}" unless value.nil?
+        params << "#{attr}:#{URI::DEFAULT_PARSER.escape(value.to_s)}" unless value.nil?
         params
       end
 
       params.join('|')
     end
 
-    # 
+    #
     # Concatenation of lat and lng value. Used when building URLs and returns them in correct order
     #
     def location_to_url # :nodoc:
       @location.to_url
     end
-    
+
     def label # :nodoc:
       @label.to_s.upcase if @label
     end
@@ -104,13 +104,13 @@ module GoogleStaticMapsHelper
     # Some attributes should be nil when a marker has icon
     [:color, :label, :size].each do |getter|
       define_method "#{getter}_to_be_used_in_param" do
-        return nil if has_icon? 
+        return nil if has_icon?
         send(getter)
       end
     end
 
     def shadow_to_be_used_in_param
-      return nil unless has_icon? 
+      return nil unless has_icon?
       shadow
     end
   end
