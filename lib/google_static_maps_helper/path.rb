@@ -14,7 +14,7 @@ module GoogleStaticMapsHelper
     #
     # Creates a new Path which you can push points on to to make up lines or polygons
     #
-    # The following options are available, for more information see the 
+    # The following options are available, for more information see the
     # Google API documentation[http://code.google.com/apis/maps/documentation/staticmaps/#Paths].
     #
     # <tt>:weight</tt>::    The weight is the thickness of the line, defaults to 5
@@ -30,7 +30,7 @@ module GoogleStaticMapsHelper
     def initialize(*args)
       @points = []
       @encode_points = true
-    
+
       extract_options!(args)
       add_points(args)
     end
@@ -42,10 +42,10 @@ module GoogleStaticMapsHelper
     def url_params # :nodoc:
       raise BuildDataMissing, "Need at least 2 points to create a path!" unless can_build?
       out = 'path='
-     
+
       path_params = OPTIONAL_OPTIONS.inject([]) do |path_params, attribute|
         value = send(attribute)
-        path_params << "#{attribute}:#{URI.escape(value.to_s)}" unless value.nil?
+        path_params << "#{attribute}:#{URI::DEFAULT_PARSER.escape(value.to_s)}" unless value.nil?
         path_params
       end.join('|')
 
@@ -56,10 +56,10 @@ module GoogleStaticMapsHelper
       out
     end
 
-  
+
     #
     # Sets the points of this Path.
-    # 
+    #
     # *WARNING* Using this method will clear out any points which might be set.
     #
     def points=(array)
@@ -115,8 +115,8 @@ module GoogleStaticMapsHelper
       return point if point.instance_of? Location
       Location.new(point)
     end
-    
-    # 
+
+    #
     # Do we have enough points to build a path?
     #
     def can_build?

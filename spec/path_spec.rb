@@ -109,7 +109,7 @@ describe GoogleStaticMapsHelper::Path do
     end
 
     it "should fetch lat and lng values from any object which responds to it" do
-      @path << mock(:point, :lat => 1, :lng => 2)
+      @path << double(:point, :lat => 1, :lng => 2)
       @path.first.should be_an_instance_of(GoogleStaticMapsHelper::Location)
     end
 
