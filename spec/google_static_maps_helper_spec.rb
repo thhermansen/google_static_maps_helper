@@ -10,7 +10,7 @@ describe GoogleStaticMapsHelper do
       end
 
       it "should have a responding method" do
-        expect(GoogleStaticMapsHelper.respond_to?(:url_for)).to be(true)
+        GoogleStaticMapsHelper.respond_to?(:url_for).should == true
       end
 
       it "should be possible to add markers to map through a b block" do

@@ -27,7 +27,7 @@ describe GoogleStaticMapsHelper::Map do
     it "should be able to read initialized key option from object" do
       GoogleStaticMapsHelper::Map.new(reguire_options).key.should == reguire_options[:key]
     end
-    
+
     reguire_options.each_key do |key|
       it "should use #{key} from GoogleStaticMapsHelper class attribute if set" do
         option_with_missing_option = reguire_options.dup
@@ -75,7 +75,7 @@ describe GoogleStaticMapsHelper::Map do
     end
   end
 
-  
+
   describe "Grouped markers" do
     before :each do
       @marker1  = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
@@ -107,7 +107,7 @@ describe GoogleStaticMapsHelper::Map do
 
       @map = GoogleStaticMapsHelper::Map.new(reguire_options)
     end
-    
+
     it "should be able to push paths on to map" do
       @map << @path
       @map.first.should == @path
@@ -167,11 +167,11 @@ describe GoogleStaticMapsHelper::Map do
     end
 
     it "should raise an error if width is above 640px as it is not supported by Google Maps" do
-      lambda {@map.width = 641}.should raise_error
+      lambda {@map.width = 641}.should raise_error RuntimeError
     end
 
     it "should raise an error if height is above 640px as it is not supported by Google Maps" do
-      lambda {@map.height = 641}.should raise_error
+      lambda {@map.height = 641}.should raise_error RuntimeError
     end
   end
 
@@ -221,11 +221,11 @@ describe GoogleStaticMapsHelper::Map do
 
   describe "URL" do
     before :each do
-      @key = 
+      @key =
       @size = '400x600'
       @sensor = false
       @map = GoogleStaticMapsHelper::Map.new(:size => @size, :sensor => @sensor)
-      
+
       @marker1  = GoogleStaticMapsHelper::Marker.new(:lng => 1, :lat => 2)
       @marker11 = GoogleStaticMapsHelper::Marker.new(:lng => 3, :lat => 4)
 
@@ -243,13 +243,13 @@ describe GoogleStaticMapsHelper::Map do
 
       it "should not raise exception if markers are in map" do
         @map << @marker1
-        lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+        lambda{@map.url}.should_not raise_error
       end
 
       it "should not raise exception if center and zoom is set" do
         @map.zoom = 1
         @map.center = '1,1'
-        lambda{@map.url}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+        lambda{@map.url}.should_not raise_error
       end
     end
 
@@ -272,11 +272,11 @@ describe GoogleStaticMapsHelper::Map do
         @map.key_without_warning = nil
         @map.url.should_not include("key=")
       end
-      
+
       it "should include the size" do
         @map.url.should include("size=#{@size}")
       end
-      
+
       it "should include the sensor" do
         @map.url.should include("sensor=#{@sensor}")
       end
@@ -305,11 +305,11 @@ describe GoogleStaticMapsHelper::Map do
         @map.zoom = 1
         @map.center = '1,1'
       end
-      
+
       it "should contain center=2,3" do
         @map.url.should include("center=1,1")
       end
-      
+
       it "should contain zoom=1" do
         @map.url.should include("zoom=1")
       end
@@ -326,7 +326,7 @@ describe GoogleStaticMapsHelper::Map do
         @map << @marker2
         @map << @marker3
       end
-      
+
       [
         ['sensor', 'false'],
         ['size', '400x600'],
@@ -371,7 +371,7 @@ describe GoogleStaticMapsHelper::Map do
         @point2 = GoogleStaticMapsHelper::Location.new(:lat => 3, :lng => 4)
         @path << @point << @point2
       end
-      
+
       it "should not include path in url if no paths are represented in the map" do
         @map.center = '1,2'
         @map.zoom = 11
@@ -397,7 +397,7 @@ describe GoogleStaticMapsHelper::Map do
       end
     end
   end
-  
+
   it "should provide a helper method named marker which will create a new marker and add it to the map" do
     map = GoogleStaticMapsHelper::Map.new(reguire_options)
     map.marker(:lat => 1, :lng => 2)
