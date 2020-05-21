@@ -141,7 +141,7 @@ describe GoogleStaticMapsHelper::Path do
     end
 
     it "should not raise an error if path have points" do
-      lambda {@path.url_params}.should_not raise_error(GoogleStaticMapsHelper::BuildDataMissing)
+      lambda {@path.url_params}.should_not raise_error
     end
 
     it "should begin with path=" do
