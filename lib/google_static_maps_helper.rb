@@ -6,7 +6,7 @@ require File.dirname(__FILE__) + '/google_static_maps_helper/marker'
 require File.dirname(__FILE__) + '/google_static_maps_helper/path'
 require File.dirname(__FILE__) + '/google_static_maps_helper/gmap_polyline_encoder'
 
-# 
+#
 # The Google Static Map Helper provides a simple interface to the
 # Google Static Maps V2 API (http://code.google.com/apis/maps/documentation/staticmaps/).
 #
@@ -14,14 +14,14 @@ require File.dirname(__FILE__) + '/google_static_maps_helper/gmap_polyline_encod
 # <tt>Map</tt>::      A map is what keeps all of the state of which you'll build a URL for.
 # <tt>Marker</tt>::   One or more markers can be added to the map. A marker can be customized with size, label and color.
 # <tt>Path</tt>::     A path will create lines or polygons in your map.
-# 
+#
 # == About
 #
 # Author:: Thorbjørn Hermansen (thhermansen@gmail.com)
 #
 module GoogleStaticMapsHelper
   # The basic url to the API which we'll build the URL from
-  API_URL = 'http://maps.google.com/maps/api/staticmap'
+  API_URL = 'https://maps.google.com/maps/api/staticmap'
 
   class OptionMissing < ArgumentError; end # Raised when required options is not sent in during construction
   class OptionNotExist < ArgumentError; end # Raised when incoming options include keys which is invalid
@@ -31,7 +31,7 @@ module GoogleStaticMapsHelper
 
   class << self
     attr_accessor :key, :size, :sensor
-    
+
     #
     # Provides a simple DSL stripping away the need of manually instantiating classes
     #
@@ -41,7 +41,7 @@ module GoogleStaticMapsHelper
     #   GoogleStaticMapsHelper.key = 'your google key'
     #   GoogleStaticMapsHelper.size = '300x600'
     #   GoogleStaticMapsHelper.sensor = false
-    #   
+    #
     #   # Then, you'll be able to do:
     #   url = GoogleStaticMapsHelper.url_for do
     #     marker :lng => 1, :lat => 2
